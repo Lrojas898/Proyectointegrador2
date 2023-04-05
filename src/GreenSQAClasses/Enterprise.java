@@ -52,10 +52,7 @@ public class Enterprise {
 	
 	public ProjectManager searchManager(String id) {
 		for(int i=0;i<this.listOfProjectManager.length;i++) {
-			System.out.println(this.listOfProjectManager[i].toString());
 			if(this.listOfProjectManager[i].getId().equals(id)) {
-				System.out.println(this.listOfProjectManager[i].toString());
-		
 				return this.listOfProjectManager[i]; 
 			}
 		}
@@ -66,7 +63,7 @@ public class Enterprise {
 	
 	public Project searchProject(String code) {
 		for(int i=0;i<indexProjects;i++) {
-			if(listOfProjects[i].getCode()==code) {	
+			if(listOfProjects[i].getCode().equals(code)) {	
 				return listOfProjects[i]; 
 			}
 		}
@@ -74,17 +71,16 @@ public class Enterprise {
 	}
 	public int obtainProjectNumber(String code) {
 		for(int i=0;i<indexProjects;i++) {
-			if(listOfProjects[i].getCode()==code) {
+			if(listOfProjects[i].getCode().equals(code)) {
 				return i;}
 			}
-		return (Integer) null;
-		
+		return -1;
 	}
 	
 	
 	public Collaborator searchCollaborator(String id) {
 		for(int i=0;i<indexCollaborator;i++) {
-			if(listOfCollaborator[i].getId()==id) {	
+			if(listOfCollaborator[i].getId().equals(id)) {	
 				return listOfCollaborator[i]; 
 			}
 		}
@@ -164,7 +160,7 @@ public class Enterprise {
 		String finalDateS;
 		double budget; 
 		String code; 
-		int []stagesMonts;
+		int monthsPerStage=0;
 		String projectManagerId;
 		String clientId;
 
@@ -203,15 +199,17 @@ public class Enterprise {
 		projectManagerId = console.next();
 				
 		createProject(nameProject, startDate, finalDate, budget, code, searchManager(projectManagerId), searchClient(clientId));
-		System.out.println("Type the starts dates and duratio of each stage");
+		System.out.println("Type the starts dates and duration of each stage");
 		for(int i=0;i<6;i++) {
-			listOfProjects[(int) indexProjects-1].assignDates(i, startDate, month);	
+			System.out.println("Type the duration in months of the stage number "+(i+1));
+			monthsPerStage=console.nextInt();
+			listOfProjects[(int) indexProjects-1].assignDates(i, startDate, monthsPerStage);	
 		}
 		searchManager(projectManagerId).addProjects(code);
 		searchClient(clientId).addProject(code);
 	}
 	
-	public void menuCreateCapsule() {
+	public void menuApproveStage() {
 		String codeProject;
 		int numProject;
 		int numStage;
@@ -220,15 +218,61 @@ public class Enterprise {
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
-		System.out.print("Type the Stage Number: ");
+		System.out.println("Type the Stage Number to Approve: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
+		numStage=numStage-1;
+		listOfProjects[numProject].culminateStage(numStage, true);
+		if(numStage!=0) {
+			if(listOfProjects[numProject].getSpecificStage(numStage-1).isApproved()==false) {
+				System.out.println("The previous stage has not been approved, thus the next stage cannot be activated");
+			}
+			else if(listOfProjects[numProject].getSpecificStage(numStage).isApproved()==true){
+				listOfProjects[numProject].culminateStage(numStage, true);
+				System.out.println("The stage has been approved, and the next stage has been approved");
+				
+			}
+		}
+			
+		
+	}
+	
+	
+	public void menuCreateCapsule() {
+		String codeProject;
+		int numProject;
+		int numStage;
+		Scanner console= new Scanner(System.in);
+		System.out.println("MENU: PROJECT CREATION");
+		System.out.println("Type the Project Code: ");
+		codeProject= console.next();
+		numProject=obtainProjectNumber(codeProject);
+		System.out.println("Type the Stage Number: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
+		numStage= console.nextInt();
+		numStage=numStage-1;
 		if(listOfProjects[numProject].getSpecificStage(numStage).isAvaiable()==false) {
 			System.out.println("The stage is not yet avaiable");
 		}
 		else
 		{
 			System.out.println("SELECT A CAPSULE TYPE");
+			System.out.println("1: TECHNIQUE");
+			System.out.println("2: MANAGEMENT");
+			System.out.println("3: DOMAIN");
+			System.out.println("5: EXPERIENCES");
 			int capsuleType=console.nextInt();
+			capsuleType=capsuleType-1;
 			System.out.println("TYPE THE ID OF THE COLLABORATOR");
 			String id=console.next();
 			searchCollaborator(id);
@@ -236,10 +280,13 @@ public class Enterprise {
 			String description=console.next();
 			System.out.println("TYPE THE LEARNING OF THE CAPSULE");
 			String learning=console.next();
-			listOfProjects[numProject].getSpecificStage(numStage).createCapsule(capsuleType, searchCollaborator(id), description, learning);
+			System.out.println("TYPE THE IDENTIFICATION CODE OF THE CAPSULE");
+			String code=console.next();
+			
+			listOfProjects[numProject].getSpecificStage(numStage).createCapsule(capsuleType, searchCollaborator(id), description, learning, code,codeProject, (numStage+1));
+			System.out.println(listOfProjects[numProject].getSpecificStage(numStage).getSpecificCapsule(0).toString());
 			
 		}
-		
 		
 	}
 	
@@ -252,8 +299,15 @@ public class Enterprise {
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
-		System.out.print("Type the Stage Number: ");
+		System.out.println("Type the Stage Number: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
+		numStage=numStage-1;
 		System.out.println("Type the capsule's number to approve");
 		int capsuleNumber=console.nextInt();
 		listOfProjects[numProject].getSpecificStage(numStage).approveCapsule(capsuleNumber, true);
@@ -269,8 +323,15 @@ public class Enterprise {
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
-		System.out.print("Type the Stage Number: ");
+		System.out.println("Type the Stage Number: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
+		numStage=numStage-1;
 		System.out.println("Type the capsule's number to approve its publication");
 		int capsuleNumber=console.nextInt();
 		listOfProjects[numProject].getSpecificStage(numStage).approveToPublish(capsuleNumber, true);
@@ -286,8 +347,15 @@ public class Enterprise {
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
-		System.out.print("Type the Stage Number: ");
+		System.out.println("Type the Stage Number: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
+		numStage=numStage-1;
 		System.out.println("Type the capsule's number to publish");
 		int capsuleNumber=console.nextInt();
 		System.out.println("Type the HTML or URL of the capsule");
@@ -305,11 +373,18 @@ public class Enterprise {
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
-		System.out.print("Type the Stage Number: ");
+		System.out.println("Type the Stage Number: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
+		numStage=numStage-1;
 		System.out.println("How many kewywords will you search?");
 		int indexKeywords=console.nextInt();
-		String [] keywords = null;
+		String keywords[] = new String[1000000];
 		for (int i=0;i<indexKeywords;i++) {
 			System.out.println("Type the "+(i+1)+" keyword: ");
 			keywords[i]=console.next();
@@ -328,8 +403,15 @@ public class Enterprise {
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
-		System.out.print("Type the Stage Number: ");
+		System.out.println("Type the Stage Number: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
+		numStage=numStage-1;
 		System.out.print("Type the text to search: ");
 		String text=console.next();
 		listOfProjects[numProject].getSpecificStage(numStage).searchCapsuleText(text);

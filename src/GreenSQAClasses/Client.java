@@ -6,7 +6,7 @@ public class Client {
 	private String name; 
 	private String id;
 	private String phone;
-	private String[] projects;
+	private String projects[]= new String[10];
 	private int projectsIndex=0;
 	public static Scanner console=new Scanner(System.in);
 	

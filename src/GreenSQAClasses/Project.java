@@ -51,31 +51,16 @@ public class Project {
 		this.stages[stageNumber].setPlanedFinalDate(startDate);
 	}
 
-	public void activateStage(String stageName, boolean avaiability) {
-		for(int i=0; i<6;i++) {
-			if(this.stages[i].getName()==stageName) {
-				this.stages[i].setAvaiable(avaiability);
-				//la fecha en la cual fue aprobada
-				this.stages[i].setRealStartDate(currentDate);}
-		}
-	}
+	public void activateStage(int stageNumber, boolean avaiability) {
+		this.stages[stageNumber].setAvaiable(avaiability);
+		this.stages[stageNumber].setRealStartDate(currentDate);}
 	
-	//pregunta
-		
-	public void culminateStage(String stageName, boolean finished) {
-		for(int i=0; i<6;i++) {
-			if(this.stages[i].getName()==stageName) {
-				this.stages[i].setApproved(finished);
-				//la fecha en la cual fue culminada
-				this.stages[i].setRealFinalDate(currentDate);
-				this.stages[i+1].setAvaiable(true);
-			}
-		}
-
+	public void culminateStage(int stageNumber, boolean finished) {
+		this.stages[stageNumber].setApproved(finished);
+		this.stages[stageNumber].setRealFinalDate(currentDate);
+		this.stages[stageNumber+1].setAvaiable(true);
 	}
-
-
-
+		
 
 	public String getName() {
 		return name;
@@ -173,7 +158,7 @@ public class Project {
 	}
 	
 	public Stage getSpecificStage(int index) {
-		return stages[index];
+		return this.stages[index];
 	}
 
 

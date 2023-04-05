@@ -9,11 +9,13 @@ public class Capsule {
 	
 	
 	private int capsuleNumber;
+	private String code;
 	private String type;
 	private String learning;
 	private String description;
 	private Collaborator collaborator;
 	private String projectCode;
+	private int stageNumber;
 	private String html;
 	private boolean isApproved;
 	private Calendar approvalDate;
@@ -22,20 +24,24 @@ public class Capsule {
 	private int indexKeywords=0;
 	
 	//this, corresponde al objeto, sin this corresponde a la clase
-	public Capsule(int capsuleNumber, String type, Collaborator collaborator, String description, String learning) {
+	public Capsule(int capsuleNumber, String type, Collaborator collaborator, String description, String learning, String code, String projectCode, int stageNumber) {
 		this.capsuleNumber = capsuleNumber;
 		this.type = type;
 		this.collaborator=collaborator;
 		this.collaborator.addCapsule(this.capsuleNumber);
 		this.description=description;
 		this.learning=learning;
-		String stringKeywords=this.description+this.learning;
+		this.code=code;
+		this.projectCode=projectCode;
+		this.stageNumber=stageNumber;
+		String stringKeywords=this.description;
 		String [] foundKeywords=stringKeywords.split("#");
 		this.keywords= new String[(foundKeywords.length-1)/2];
 		this.indexKeywords=0;
 		for(int i=1;i<foundKeywords.length;i+=2) {
-			this.keywords[indexKeywords]=foundKeywords[i];
+			this.keywords[indexKeywords]=(foundKeywords[i]);
 			this.indexKeywords++;
+			
 		}
 		
 	}
@@ -113,16 +119,23 @@ public class Capsule {
 	public void setApprovedToPublish(boolean isApprovedToPublish) {
 		this.isApprovedToPublish = isApprovedToPublish;
 	}
-
 	
+	public String getCode() {
+		return code;
+	}
+
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 
 	public String[] getKeywords() {
-		return keywords;
+		return this.keywords;
 	}
 	
 	public String getSpecificKeyword(int index) {
-		return keywords[index];
+		return this.keywords[index];
 	}
 
 	public void setKeywords(String[] keywords) {
@@ -131,11 +144,28 @@ public class Capsule {
 
 	@Override
 	public String toString() {
-		return "Capsule [capsuleNumber=" + capsuleNumber + ", type=" + type + ", learning=" + learning
-				+ ", description=" + description + ", collaborator=" + collaborator + ", projectCode=" + projectCode
-				+ ", html=" + html + ", isApproved=" + isApproved + ", approvalDate=" + approvalDate
-				+ ", isApprovedToPublish=" + isApprovedToPublish + ", keywords=" + Arrays.toString(keywords)
-				+ ", indexKeywords=" + indexKeywords + "]";
+		String approvalMenssage;
+		if(this.isApproved==false) {
+			approvalMenssage="The capsule has not been approved";
+		}
+		else {
+			approvalMenssage="The capsule has been approved";
+		}
+		
+		String approvalMenssagePublish;
+		if(this.isApprovedToPublish==false) {
+			approvalMenssagePublish="The capsule has not been approved to be published";
+		}
+		else {
+			approvalMenssagePublish="The capsule has been approved to be published ";
+		}
+
+
+		return "Capsule [Capsule type=" + type + ", Capsue Learning=" + learning
+				+ ", Capsule description=" + description + ", Collaborator=" + collaborator.getId() + ", Project Code where the Capsule is stored=" + projectCode+", Stage Number where the capsule is stored"+stageNumber+
+				 " Capsule html=" + html + ", Is the Capsule Approved=" + approvalMenssage + ", approvalDate=" + approvalDate
+				+ ",s the capsule Approved To be Publish=" + approvalMenssagePublish + ", Capsule keywords=" + Arrays.toString(keywords)
+				+  "]";
 	} 
 	
 

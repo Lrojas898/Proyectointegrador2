@@ -14,7 +14,7 @@ public class Stage {
 	private Calendar planedFinalDate;
 	private Calendar realStartDate;
 	private Calendar realFinalDate; 
-	private Capsule [] capsules= new Capsule[50];
+	private Capsule []capsules = new Capsule[50];
 	private String [] capsuleType= {"TECHNIQUE", "MANAGEMENT", "DOMAIN", "EXPERIENCES"};
 	private int capsuleIndex=0;
 	
@@ -98,8 +98,19 @@ public class Stage {
 	}
 	
 		
-	public void createCapsule(int selectCapsuleType, Collaborator collaborator, String description, String learning) {
-		this.capsules[(int) capsuleIndex]= new Capsule(capsuleIndex,capsuleType[selectCapsuleType], collaborator, description, learning);
+	public Capsule[] getCapsules() {
+		return capsules;
+	}
+	public Capsule getSpecificCapsule(int index) {
+		return this.capsules[index];
+	}
+
+	public void setCapsules(Capsule[] capsules) {
+		this.capsules = capsules;
+	}
+
+	public void createCapsule(int selectCapsuleType, Collaborator collaborator, String description, String learning, String code, String ProjectCode, int stageCapsuleNumber) {
+		this.capsules[this.capsuleIndex]= new Capsule(this.capsuleIndex,capsuleType[selectCapsuleType], collaborator, description, learning, code, ProjectCode, stageCapsuleNumber);
 		capsuleIndex++;
 	}
 	
@@ -134,27 +145,27 @@ public class Stage {
 	
 	
 	
-	public Capsule searchCapsuleKeywords(String keywords[]) {
+	public String searchCapsuleKeywords(String keywords[]) {
 		Scanner console= new Scanner(System.in);
 		int optional;
-		
-		for(int i=0;i<this.capsules.length;i++) {
-			
-			for(int j=0;j<this.capsules[i].getKeywords().length;i++) {
-				
-				if(keywords[j]==this.capsules[i].getSpecificKeyword(j)) {
-					
-					System.out.println("Is this the capsule you were searching?");
-					System.out.println(this.capsules[i].toString());
-					System.out.println("YES [1] NO [2]");
-					optional=console.nextInt();
-					if(optional==1) {
-						return this.capsules[i];}
+		for(int c=0;c<this.capsuleIndex;c++) {
+			for(int r=0;r<this.capsules[c].getKeywords().length;r++) {
+				for(int k=0;k<keywords.length;k++) {
+					if(this.capsules[c].getSpecificKeyword(r).equals(keywords[k])) {
+						System.out.println("Is this the capsule you were searching?");
+						System.out.println(this.capsules[c].toString());
+						System.out.println("YES [1] NO [2]");
+						optional=console.nextInt();
+						if(optional==1) {
+							break;
+						}
+						
 					}
+					
 				}
 				
 			}
-		
+		}
 		return null;	
 	}
 	
@@ -163,7 +174,7 @@ public class Stage {
 		int optional=0;
 		for(int i=0;i<this.capsules.length;i++) {
 			
-				if(this.capsules[i].getDescription().contains(text) || this.capsules[i].getLearning().contains(text)) {
+				if((this.capsules[i].getDescription().contains(text)) || (this.capsules[i].getLearning().contains(text))) {
 					
 					System.out.println("Is this the capsule you were searching?");
 					System.out.println(this.capsules[i].toString());

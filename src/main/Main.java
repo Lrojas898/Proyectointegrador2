@@ -15,12 +15,13 @@ public class Main {
 			System.out.println("2.REGISTER COLLABORATORS: ");
 			System.out.println("3.REGISTER CLIENTS: ");
 			System.out.println("4.REGISTER PROYECTS: ");
-			System.out.println("5.CREATE INFORMATION CAPSULE: ");
-			System.out.println("6.CONSULT INFORMATION CAPSULE BY KEYWORDS");
-			System.out.println("7.CONSULT INFORMATION CAPSULE BY TEXT");
-			System.out.println("8.APPROVE INFORMATION CAPSULE: ");
-			System.out.println("9.APPROVE INFORMATION CAPSULE TO PUBLISH: ");
-			System.out.println("10.PUBLISH INFORMATION CAPSULE: ");
+			System.out.println("5.APPROVE A STAGE");
+			System.out.println("6.CREATE INFORMATION CAPSULE: ");
+			System.out.println("7.CONSULT INFORMATION CAPSULE BY KEYWORDS");
+			System.out.println("8.CONSULT INFORMATION CAPSULE BY TEXT");
+			System.out.println("9.APPROVE INFORMATION CAPSULE: ");
+			System.out.println("10.APPROVE INFORMATION CAPSULE TO PUBLISH: ");
+			System.out.println("11.PUBLISH INFORMATION CAPSULE: ");
 			System.out.print("\nTYPE YOUR OPTION (99 EXIT): ");
 			control = console.nextInt();
 			switch(control) {
@@ -43,35 +44,37 @@ public class Main {
 					greenSQA.menuCreateProject();
 					System.out.println("The Project has been succesfully registred");
 					break;
-				
+					
 				case 5: 
+					greenSQA.menuApproveStage();
+					break;
+				
+				case 6: 
 					greenSQA.menuCreateCapsule();
 					System.out.println("The Capsule has been succesfully registred");
 					break;
 				
-				case 6: 
+				case 7: 
 					greenSQA.menuConsultCapsulebyKeywords();
 					break;
 				
-				case 7: 
+				case 8: 
 					greenSQA.menuConsultCapsulebyText();
 					break;
 				
-				case 8: 
+				case 9: 
 					greenSQA.menuApproveCapsule();
 					System.out.println("The capsule has been succesfully approved");
 					break;
 				
-				case 9: 
+				case 10: 
 					greenSQA.menuApproveCapsuleToPublish();
 					System.out.println("The manager has been succesfully registred");
 					break;
 				
-				case 10:
+				case 11:
 					greenSQA.menuPublishCapsule();
 					break;
-				case 11:
-					greenSQA.searchManager("55");
 					
 			}
 		} while (control != 99);
