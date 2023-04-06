@@ -2,15 +2,20 @@ package GreenSQAClasses;
 import GreenSQAClasses.Project;
 import GreenSQAClasses.ProjectManager;
 import GreenSQAClasses.Client;
+import GreenSQAClasses.Stage;
 import GreenSQAClasses.Collaborator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+/**
+ * Administrator class, this class will instantiate the objects of all used classes in the program: ProjectManager, Collaborator, Client, Project, Stage, Capsule. An Enterprise object  has only  one attribute: name
+ *
+ */
 
 public class Enterprise {
+
 	private String name;
-	// Create a list to hold rows List<Row> rowList = new ArrayList<>(); //
 	private Project[] listOfProjects= new Project[10];
 	private int indexProjects=0;
 	private ProjectManager[] listOfProjectManager= new ProjectManager[10];
@@ -19,17 +24,32 @@ public class Enterprise {
 	private int indexClients=0;
 	private Collaborator [] listOfCollaborator = new Collaborator[40];
 	private int indexCollaborator=0;
+	/**
+	 * Constructor method of enterprise: given a name an object enterprise will be instantiated.
+	 * @param name
+	 */
 	
 	public Enterprise(String name) {
 		super();
 		this.name = name;
 	} 
-	
+	/**
+	 * Method to instantiate the active clients of the company. 
+	 * 
+	 * @param name
+	 * @param id
+	 * @param phone
+	 */
 	public void registerClients(String name, String id, String phone) {
 		listOfClient[(int) indexClients]= new Client(name, id, phone);
 		indexClients++;
 	}
-		
+	/**
+	 * Method to instantiate the active project managers of the company. 
+	 * @param name
+	 * @param phone
+	 * @param id
+	 */
 	
 	public void registerProjectManager(String name, String phone, String id) {
 		ProjectManager manager= new ProjectManager(name, phone, id);
@@ -37,10 +57,27 @@ public class Enterprise {
 		this.indexProjectManager++;	
 	}
 	
+	/**
+	 * Method to instantiate the active collaborators of the company. 
+	 * @param name
+	 * @param id
+	 * @param phone
+	 * @param position
+	 */
 	public void registerCollaborators(String name, String id,  String phone, String position) {
 	this.listOfCollaborator[(int) indexCollaborator]=new Collaborator(name, id, phone, position);
 	this.indexCollaborator++;	
 	}
+	/**
+	 * Method to instantiate the active projects of the company. 
+	 * @param name
+	 * @param startDate
+	 * @param finalDate
+	 * @param budget
+	 * @param code
+	 * @param manager
+	 * @param client
+	 */
 	 
 	
 	public void createProject(String name, Calendar startDate, Calendar finalDate, double budget, String code, ProjectManager manager, Client client) {
@@ -48,7 +85,11 @@ public class Enterprise {
 		indexProjects++;
 	}
 	
-	//metodo de busqueda y assignación 
+	/**
+	 * Method to search a registered project manager by its id.
+	 * @param id
+	 * @return the project manager (object) searched
+	 */
 	
 	public ProjectManager searchManager(String id) {
 		for(int i=0;i<this.listOfProjectManager.length;i++) {
@@ -59,6 +100,11 @@ public class Enterprise {
 		return null;
 		
 	}
+	/**
+	 * Method to search a registered project  by its code.
+	 * @param code
+	 * @return the project (object) searched 
+	 */
 	 
 	
 	public Project searchProject(String code) {
@@ -69,6 +115,12 @@ public class Enterprise {
 		}
 		return null;
 	}
+	
+	/**
+	 * Method to obtain the position of an specific project in the array that stores all created projects of the company
+	 * @param code
+	 * @return the project position in the array
+	 */
 	public int obtainProjectNumber(String code) {
 		for(int i=0;i<indexProjects;i++) {
 			if(listOfProjects[i].getCode().equals(code)) {
@@ -77,7 +129,11 @@ public class Enterprise {
 		return -1;
 	}
 	
-	
+	/**
+	 * Method to search a registered project manager by its id.
+	 * @param id
+	 * @return the collaborator searched
+	 */
 	public Collaborator searchCollaborator(String id) {
 		for(int i=0;i<indexCollaborator;i++) {
 			if(listOfCollaborator[i].getId().equals(id)) {	
@@ -87,6 +143,11 @@ public class Enterprise {
 		return null;
 	}
 	
+	/**
+	 * Method to search a registered client by its id.
+	 * @param id
+	 * @return the client searched
+	 */
 	public  Client searchClient(String id) {
 		for(int i=0;i<indexClients;i++) {
 			if(listOfClient[i].getId().equals(id)) {	
@@ -95,6 +156,10 @@ public class Enterprise {
 		}
 		return null;
 	}
+	
+	/**
+	 * This menu method will display the menu required to register a project manager. It will demand the attributes to instantiate a new project manager: name, phone, id. 
+	 */
 	
 	public void menusRegisterManager() {
 		Scanner console= new Scanner(System.in);
@@ -112,6 +177,9 @@ public class Enterprise {
 		registerProjectManager(name,phone,id);
 		
 	}
+	/**
+	 * This menu method will display the menu required to register a client. It will demand the attributes to instantiate a new project client: name, phone, id. 
+	 */
 	
 	public void menusRegisterClients() {
 		Scanner console= new Scanner(System.in);
@@ -129,6 +197,9 @@ public class Enterprise {
 		registerClients(name,id, phone);
 		
 	}
+	/**
+	 * This menu method will display the menu required to register a project manager. It will demand the attributes to instantiate a new collaborator: name, phone, id, position. 
+	 */
 	
 	public void menusRegisterCollaborators() {
 		Scanner console= new Scanner(System.in);
@@ -149,8 +220,9 @@ public class Enterprise {
 		registerCollaborators(name,id, phone, position);
 	}
 	
-
-	
+/**
+ * This menu method will display the menu required to register a new project in the company. It will demand the required attributed to create a project: project name, planed start date, planed final date, budget, identification code, the project manager assigned, the client. The stages will be created automatically ("START", "ANALYSIS", "DESIGN", "EXECUTION", "CLOSE", "TRACING", "PROYECC CONTROL"), but its duration in months will be demanded.
+ */
 	public void menuCreateProject() {
 		Scanner console= new Scanner(System.in);
 		
@@ -209,6 +281,10 @@ public class Enterprise {
 		searchClient(clientId).addProject(code);
 	}
 	
+	/**
+	 * This menu method will display the menu required to approve a stage of a specific project. It will demand the project code whose stage will be approved, in order to deactivate it and activate the next stage. 
+	 */
+	
 	public void menuApproveStage() {
 		String codeProject;
 		int numProject;
@@ -241,7 +317,11 @@ public class Enterprise {
 			
 		
 	}
-	
+	/**
+	 * 
+	 * This menu method will display the menu required to create a capsule of a specific stage in a project. It will demand the project code and the stage number whose capsule will be created. And the needed attributed to create a capsule: capsuleType, the collaborator who create it , description, learning, capsule identification code, project code, stage number
+	 *
+	 */
 	
 	public void menuCreateCapsule() {
 		String codeProject;
@@ -289,6 +369,9 @@ public class Enterprise {
 		}
 		
 	}
+	/**
+	 * This menu method will display the menu required to approve a specific capsule in a stage of a particular project. It will demand the needed information to access the capsule and change it approval attribute to true.
+	 */
 	
 	public void menuApproveCapsule() {
 		String codeProject;
@@ -308,12 +391,15 @@ public class Enterprise {
 		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
 		numStage=numStage-1;
-		System.out.println("Type the capsule's number to approve");
-		int capsuleNumber=console.nextInt();
+		System.out.println("Type the capsule's code to approve");
+		String capsuleCode=console.next();
+		int capsuleNumber=listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
 		listOfProjects[numProject].getSpecificStage(numStage).approveCapsule(capsuleNumber, true);
 		
 	}
-	
+	/**
+	 * This menu method will display the menu required to approve the publication of a specific capsule in a stage of a particular project. It will demand the needed information to access the capsule and change it publication approval attribute to true.
+	 */
 	public void menuApproveCapsuleToPublish() {
 		String codeProject;
 		int numProject;
@@ -332,11 +418,15 @@ public class Enterprise {
 		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
 		numStage=numStage-1;
-		System.out.println("Type the capsule's number to approve its publication");
-		int capsuleNumber=console.nextInt();
+		System.out.println("Type the capsule's code to approve");
+		String capsuleCode=console.next();
+		int capsuleNumber=listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
 		listOfProjects[numProject].getSpecificStage(numStage).approveToPublish(capsuleNumber, true);
 		
 	}
+	/**
+	 * This menu method will display the menu required to obtain the url or html needed to publish a capsule. It will demand the needed information to access the capsule, and add its html or url
+	 */
 	
 	public void menuPublishCapsule() {
 		String codeProject;
@@ -363,6 +453,9 @@ public class Enterprise {
 		listOfProjects[numProject].getSpecificStage(numStage).publishCapsule(capsuleNumber, urlCapsule);
 		
 	}
+	/**
+	 * This menu method will display the menu required to access a capsule information or attributed by its keywords in the learning or description
+	 */
 	
 	public void menuConsultCapsulebyKeywords() {
 		String codeProject;
@@ -394,6 +487,10 @@ public class Enterprise {
 		
 		
 	}
+	
+	/**
+	 * This menu method will display the menu required to access a capsule information or attributed by a fragment of the text contained in the description or learning of the capsule
+	 */
 	public void menuConsultCapsulebyText() {
 		String codeProject;
 		int numProject;

@@ -5,6 +5,15 @@ import GreenSQAClasses.Collaborator;
 import GreenSQAClasses.Project;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+/**
+ * This Class is to create a information capsule for a particular stage of a project with its  specify attributes:
+ * Capsule Type
+ * Collaborator who created it 
+ * description
+ * identification code
+ * @author luism
+ *
+ */
 public class Capsule {
 	
 	
@@ -22,8 +31,20 @@ public class Capsule {
 	private boolean isApprovedToPublish;
 	private String[] keywords= new String[10000000];
 	private int indexKeywords=0;
+
 	
-	//this, corresponde al objeto, sin this corresponde a la clase
+	/**
+	 * Constructor method of capsule
+	 * @param capsuleNumber
+	 * @param type
+	 * @param collaborator
+	 * @param description
+	 * @param learning
+	 * @param code
+	 * @param projectCode
+	 * @param stageNumber
+	 */
+	
 	public Capsule(int capsuleNumber, String type, Collaborator collaborator, String description, String learning, String code, String projectCode, int stageNumber) {
 		this.capsuleNumber = capsuleNumber;
 		this.type = type;
@@ -142,7 +163,9 @@ public class Capsule {
 		this.keywords = keywords;
 	}
 
-	@Override
+	/**
+	 * to string method
+	 */
 	public String toString() {
 		String approvalMenssage;
 		if(this.isApproved==false) {
@@ -162,9 +185,9 @@ public class Capsule {
 
 
 		return "Capsule [Capsule type=" + type + ", Capsue Learning=" + learning
-				+ ", Capsule description=" + description + ", Collaborator=" + collaborator.getId() + ", Project Code where the Capsule is stored=" + projectCode+", Stage Number where the capsule is stored"+stageNumber+
+				+ ", Capsule description=" + description + ", Collaborator=" + collaborator.getId() + ", Project Code where the Capsule is stored= " + projectCode+", Stage Number where the capsule is stored "+stageNumber+
 				 " Capsule html=" + html + ", Is the Capsule Approved=" + approvalMenssage + ", approvalDate=" + approvalDate
-				+ ",s the capsule Approved To be Publish=" + approvalMenssagePublish + ", Capsule keywords=" + Arrays.toString(keywords)
+				+ ", the capsule Approved To be Publish= " + approvalMenssagePublish + ", Capsule keywords = " + Arrays.toString(keywords)
 				+  "]";
 	} 
 	

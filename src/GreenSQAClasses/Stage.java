@@ -2,7 +2,20 @@ package GreenSQAClasses;
 import GreenSQAClasses.Capsule;
 import java.util.Calendar;
 import java.util.Scanner;
-
+/**
+ * This Class is to instantiate a stage of a project with its needed attributed:
+ * stage name: "START", "ANALYSIS", "DESIGN", "EXECUTION", "CLOSE", "TRACING", or "PROYECC CONTROL"
+ * duration in months
+ * availability
+ * planned start dtae
+ * planned final date
+ * real start date
+ * real final date
+ *
+ *Also, the stage will store its information capsules in a capsules array. 
+ * @author luism
+ *
+ */
 public class Stage {
 	private static Calendar currentDate=Calendar.getInstance();
 	private String name; 
@@ -17,6 +30,7 @@ public class Stage {
 	private Capsule []capsules = new Capsule[50];
 	private String [] capsuleType= {"TECHNIQUE", "MANAGEMENT", "DOMAIN", "EXPERIENCES"};
 	private int capsuleIndex=0;
+	
 	
 	public String getName() {
 		return name;
@@ -114,6 +128,14 @@ public class Stage {
 		capsuleIndex++;
 	}
 	
+	public int obtainCapsuleNumber(String code) {
+		for(int i=0;i<capsuleIndex;i++) {
+			if(this.capsules[i].getCode().equals(code)) {
+				return i;}
+			}
+		return -1;
+	}
+	
 	public void approveCapsule(int capsuleNumber, boolean approve) {
 		this.capsules[capsuleNumber].setApproved(approve);
 		this.capsules[capsuleNumber].setApprovalDate(currentDate);
@@ -143,6 +165,11 @@ public class Stage {
 		
 	}
 	
+	/**
+	 * Method to search a capsule by its keywords
+	 * @param keywords
+	 * @return capsule searched
+	 */
 	
 	
 	public String searchCapsuleKeywords(String keywords[]) {
@@ -168,6 +195,11 @@ public class Stage {
 		}
 		return null;	
 	}
+	/**
+	 * Method to search a capsule by a fragment of its description or learning 
+	 * @param text
+	 * @return capsule searched
+	 */
 	
 	public Capsule searchCapsuleText(String text) {
 		Scanner console= new Scanner(System.in);

@@ -1,6 +1,17 @@
 package GreenSQAClasses;
 import GreenSQAClasses.Capsule;
 import java.util.Scanner;
+/**
+ * This Class is to create the collaborators of the company with its specific attributes:
+ * Name
+ * Phone
+ * Id
+ * position
+ * 
+ * The collaborator object will also store the capsules codes of all those capsules who he/she has created 
+ * @author luism
+ *
+ */
 public class Collaborator {
 	private String name; 
 	private String phone;
@@ -10,7 +21,13 @@ public class Collaborator {
 	private int capsulesIndex=0;
 	public static Scanner console=new Scanner(System.in);
 
-	
+	/**
+	 * Constructor method of Client given the name, phone and id, and position an object Client will be instantiated.
+	 * @param name
+	 * @param id
+	 * @param phone
+	 * @param position
+	 */
 	public Collaborator(String name, String id, String phone, String position) {
 		super();
 		this.name = name;
@@ -18,6 +35,10 @@ public class Collaborator {
 		this.phone = phone;
 		this.position = position;
 	}
+	/**
+	 * Method to associate a capsule created to its collaborator. The id code of the capsule will be stored by the collaborator who created it 
+	 * @param capsuleCode
+	 */
 
 	public void addCapsule(int capsuleCode) {
 		this.capsulesCreated[capsulesIndex]=capsuleCode;

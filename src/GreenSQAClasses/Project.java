@@ -5,10 +5,25 @@ import java.util.Date;
 import GreenSQAClasses.Stage;
 import GreenSQAClasses.ProjectManager;
 import GreenSQAClasses.Enterprise;
+import GreenSQAClasses.Capsule;
+
+/**
+ * This Class is to create the projects of the company with specify attributes:
+ * Project Name
+ * Planed Start Date
+ * Planed Final Date
+ * Budget
+ * Identification code
+ * Its assigned project manager
+ * The client 
+ * The duration of each predefined stage: "START", "ANALYSIS", "DESIGN", "EXECUTION", "CLOSE", "TRACING", "PROYECC CONTROL"
+ * @author luism
+ *
+ */
 
 public class Project {
 	
-//cadena de responsabilidades
+
 	private String name;
 	private int projectNumber;
 	private final String stageNames[]={"START", "ANALYSIS", "DESIGN", "EXECUTION", "CLOSE", "TRACING", "PROYECC CONTROL"};
@@ -19,11 +34,20 @@ public class Project {
 	private String code; 
 	private Stage [] stages= new Stage[6];
 	private int [] stageMonths;
-	//clase o nombre
 	private ProjectManager manager; 
 	private Client client;
-	//CAMBIAR CONSTRUCCTRES, 
-	//HACER MENU 
+
+	
+	/**
+	 * Constructor method of project given the name, planed start date and final date, its budget, identification code, project manager and client, an object project will be instantiated.
+	 * @param name
+	 * @param startDate
+	 * @param finalDate
+	 * @param budget
+	 * @param code
+	 * @param manager
+	 * @param client
+	 */
 	
 	
 	public Project(String name, Calendar startDate, Calendar finalDate, double budget, String code, ProjectManager manager, Client client) {
@@ -44,23 +68,39 @@ public class Project {
 		this.client=client;
 		
 	}
+	/**
+	 * Method to calcule the final planed date of a project's stage accordingly or its start date and duration in months 
+	 * @param stageNumber
+	 * @param startDate
+	 * @param stageMonths
+	 */
 	
 	public void assignDates( int stageNumber,Calendar startDate, int stageMonths ) {
 		this.stages[stageNumber].setPlanedStartDate(startDate);
 		startDate.add(startDate.MONTH, stageMonths);
 		this.stages[stageNumber].setPlanedFinalDate(startDate);
 	}
+	/**
+	 * Method to activate a specific stage of a project given its number
+	 * @param stageNumber
+	 * @param avaiability
+	 */
 
 	public void activateStage(int stageNumber, boolean avaiability) {
 		this.stages[stageNumber].setAvaiable(avaiability);
 		this.stages[stageNumber].setRealStartDate(currentDate);}
+	/**
+	 * Method to approve a specific stage of a project and to activate its subsequent stage given the stage number what will be approved
+	 * @param stageNumber
+	 * @param finished
+	 */
 	
 	public void culminateStage(int stageNumber, boolean finished) {
 		this.stages[stageNumber].setApproved(finished);
 		this.stages[stageNumber].setRealFinalDate(currentDate);
 		this.stages[stageNumber+1].setAvaiable(true);
 	}
-		
+	
 
 	public String getName() {
 		return name;
