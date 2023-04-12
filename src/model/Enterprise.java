@@ -340,6 +340,7 @@ public class Enterprise {
 		System.out.println("5: CLOSE");
 		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
+		console.nextLine();
 		numStage=numStage-1;
 		if(listOfProjects[numProject].getSpecificStage(numStage).isAvaiable()==false) {
 			System.out.println("The stage is not yet avaiable");
@@ -352,16 +353,17 @@ public class Enterprise {
 			System.out.println("3: DOMAIN");
 			System.out.println("5: EXPERIENCES");
 			int capsuleType=console.nextInt();
+			console.nextLine();
 			capsuleType=capsuleType-1;
 			System.out.println("TYPE THE ID OF THE COLLABORATOR");
-			String id=console.next();
+			String id=console.nextLine();
 			searchCollaborator(id);
 			System.out.println("TYPE THE DESCRIPTION OF THE CAPSULE");
-			String description=console.next();
+			String description=console.nextLine();
 			System.out.println("TYPE THE LEARNING OF THE CAPSULE");
-			String learning=console.next();
+			String learning=console.nextLine();
 			System.out.println("TYPE THE IDENTIFICATION CODE OF THE CAPSULE");
-			String code=console.next();
+			String code=console.nextLine();
 			
 			listOfProjects[numProject].getSpecificStage(numStage).createCapsule(capsuleType, searchCollaborator(id), description, learning, code,codeProject, (numStage+1));
 			System.out.println(listOfProjects[numProject].getSpecificStage(numStage).getSpecificCapsule(0).toString());
@@ -446,8 +448,9 @@ public class Enterprise {
 		System.out.println("6: TRACING AND PROYECT CONTROL");
 		numStage= console.nextInt();
 		numStage=numStage-1;
-		System.out.println("Type the capsule's number to publish");
-		int capsuleNumber=console.nextInt();
+		System.out.println("Type the capsule's code to publish");
+		String capsuleCode=console.next();
+		int capsuleNumber=listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
 		System.out.println("Type the HTML or URL of the capsule");
 		String urlCapsule=console.next();
 		listOfProjects[numProject].getSpecificStage(numStage).publishCapsule(capsuleNumber, urlCapsule);

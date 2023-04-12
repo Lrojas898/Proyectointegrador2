@@ -30,7 +30,6 @@ public class Capsule {
 	private Calendar approvalDate;
 	private boolean isApprovedToPublish;
 	private String[] keywords= new String[10000000];
-	private int indexKeywords=0;
 
 	
 	/**
@@ -55,16 +54,30 @@ public class Capsule {
 		this.code=code;
 		this.projectCode=projectCode;
 		this.stageNumber=stageNumber;
-		String stringKeywords=this.description;
-		String [] foundKeywords=stringKeywords.split("#");
-		this.keywords= new String[(foundKeywords.length-1)/2];
-		this.indexKeywords=0;
-		for(int i=1;i<foundKeywords.length;i+=2) {
-			this.keywords[indexKeywords]=(foundKeywords[i]);
-			this.indexKeywords++;
-			
+		String stringKeywords=this.description+this.learning;
+		int indexKeywords=0;
+		for(int i=0;i<stringKeywords.length();i++){
+			if(stringKeywords.charAt(i)== '#' ){
+				indexKeywords++;
+			}
 		}
 		
+		this.keywords=new String[indexKeywords/2];
+		int index=0;
+		int startIndex=stringKeywords.indexOf("#");
+		while(startIndex!=-1){
+			int endIndex=stringKeywords.indexOf("#", startIndex+1);
+		
+		if(endIndex!=-1){
+			String word= stringKeywords.substring(startIndex+1, endIndex);
+			keywords[index]=word;
+			index++;
+			startIndex=stringKeywords.indexOf("#", endIndex+1);
+		}else{
+			break;
+		}
+	}
+
 	}
 	
 
@@ -182,12 +195,15 @@ public class Capsule {
 		else {
 			approvalMenssagePublish="The capsule has been approved to be published ";
 		}
+		
+		
 
 
-		return "Capsule [Capsule type=" + type + ", Capsue Learning=" + learning
-				+ ", Capsule description=" + description + ", Collaborator=" + collaborator.getId() + ", Project Code where the Capsule is stored= " + projectCode+", Stage Number where the capsule is stored "+stageNumber+
-				 " Capsule html=" + html + ", Is the Capsule Approved=" + approvalMenssage + ", approvalDate=" + approvalDate
-				+ ", the capsule Approved To be Publish= " + approvalMenssagePublish + ", Capsule keywords = " + Arrays.toString(keywords)
+
+		return "Capsule [Capsule type= " + type + "\n"+ ", Capsue Learning=" + learning
+				+  "\n"+  ", Capsule description=" + description + "\n"+  ", Collaborator=" + collaborator.getId() + "\n"+  ", Project Code where the Capsule is stored= "  + projectCode+ "\n" + ", Stage Number where the capsule is stored "+stageNumber+
+				 " Capsule html=" + html + ", Is the Capsule Approved? =" + approvalMenssage + ", approvalDate = " + approvalDate
+				+ "\n"+ ", Is the capsule Approved to be Publish? = " + approvalMenssagePublish +"\n"+  ", Capsule keywords = " + Arrays.toString(keywords)
 				+  "]";
 	} 
 	

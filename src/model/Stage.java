@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Scanner;
 /**
  * This Class is to instantiate a stage of a project with its needed attributed:
- * stage name: "START", "ANALYSIS", "DESIGN", "EXECUTION", "CLOSE", "TRACING", or "PROYECC CONTROL"
+ * stage name: "START", "ANALYSIS", "DESIGN", "EXECUTION", "CLOSE", "TRACING", or "PROYECT CONTROL"
  * duration in months
  * availability
  * planned start dtae

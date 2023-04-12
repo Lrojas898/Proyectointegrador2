@@ -1,11 +1,13 @@
 package ui;
 import model.Enterprise;
-
 import java.util.Scanner;
 import java.io.File;
+
+//gitHub Repository: https://github.com/Lrojas898/Proyectointegrador2.git
 /**
  * This is the main class of the program. It will display all the menus required to register a project and create its information capsules per stage
  *
+ * 
  * The program starts by instantiating an enterprise object where it will be stored all projects, its stages, and specific capsules. Enterprise will also registred its employees (project managers and collaborator) and clients. The user is asked to type a int value (in optional) to choose which action will do. The user can choose in this first version: 
  * 1.REGISTER MANAGER ( to register a project manager)
  * 2.REGISTER COLLABORATOR (to register a collaborator, those employees who create the capsules)
