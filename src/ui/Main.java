@@ -2,7 +2,8 @@ package ui;
 import model.Enterprise;
 import java.util.Scanner;
 import java.io.File;
-
+import java.io.FileNotFoundException;
+import java.util.Calendar;
 //gitHub Repository: https://github.com/Lrojas898/Proyectointegrador2.git
 /**
  * This is the main class of the program. It will display all the menus required to register a project and create its information capsules per stage
@@ -12,14 +13,14 @@ import java.io.File;
  * 1.REGISTER MANAGER ( to register a project manager)
  * 2.REGISTER COLLABORATOR (to register a collaborator, those employees who create the capsules)
  * 3.REGISTER CLIENTS (to register the company's clients)
- *4.REGISTER PROYECTS (to register the projects)
- *5.APPROVE A STAGE (to approve a specific stage of a registered project)
- *6.CREATE INFORMATION CAPSULE (to create an information capsule in a specific stage of a project)
- *7.CONSULT INFORMATION CAPSULE BY KEYWORDS (consult a capsule by its keywords)
- *8.CONSULT INFORMATION CAPSULE BY TEXT (consult a capsule by a fraction of its text)
- *9.APPROVE INFORMATION CAPSULE  (approve the information or data in a capsule)
- *10.APPROVE INFORMATION CAPSULE TO PUBLISH (approve that a previous capsule whose information has been approved can be published)
- *11.PUBLISH INFORMATION CAPSULE (to obtain the url or html to publish a capsule)
+ * 4.REGISTER PROYECTS (to register the projects)
+ * 5.APPROVE A STAGE (to approve a specific stage of a registered project)
+ * 6.CREATE INFORMATION CAPSULE (to create an information capsule in a specific stage of a project)
+ * 7.CONSULT INFORMATION CAPSULE BY KEYWORDS (consult a capsule by its keywords)
+ * 8.CONSULT INFORMATION CAPSULE BY TEXT (consult a capsule by a fraction of its text)
+ * 9.APPROVE INFORMATION CAPSULE  (approve the information or data in a capsule)
+ * 10.APPROVE INFORMATION CAPSULE TO PUBLISH (approve that a previous capsule whose information has been approved can be published)
+ * 11.PUBLISH INFORMATION CAPSULE (to obtain the url or html to publish a capsule)
  *
  * Once one option is selected, the program will call the methods in the enterprise class to do as requested.
  * Finally, a confirmation message will be displayed when the option selected is finished. 
@@ -31,83 +32,162 @@ import java.io.File;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		/**
 	     * Object (console) for the Scanner class. This class is for the user to enter values from the keyboard.
 	     */
 		Scanner console= new Scanner(System.in);
 		Enterprise greenSQA= new Enterprise("Green SQA");
 		int control = 99;
-		do {
-			System.out.println("\n\n\nPRINCIPAL MENU");
-			System.out.println("Options: ");
-			System.out.println("1.REGISTER MANAGERS: ");
-			System.out.println("2.REGISTER COLLABORATORS: ");
-			System.out.println("3.REGISTER CLIENTS: ");
-			System.out.println("4.REGISTER PROYECTS: ");
-			System.out.println("5.APPROVE A STAGE");
-			System.out.println("6.CREATE INFORMATION CAPSULE: ");
-			System.out.println("7.CONSULT INFORMATION CAPSULE BY KEYWORDS");
-			System.out.println("8.CONSULT INFORMATION CAPSULE BY TEXT");
-			System.out.println("9.APPROVE INFORMATION CAPSULE: ");
-			System.out.println("10.APPROVE INFORMATION CAPSULE TO PUBLISH: ");
-			System.out.println("11.PUBLISH INFORMATION CAPSULE: ");
-			System.out.print("\nTYPE YOUR OPTION (99 EXIT): ");
-			control = console.nextInt();
-			switch(control) {
-				case 1: 
-					greenSQA.menusRegisterManager();
-					System.out.println("The Manager has been succesfully registred");
-					break;
-				
-				case 2: 
-					greenSQA.menusRegisterCollaborators();
-					System.out.println("The Collaborator has been succesfully registred");
-					break;
-				
-				case 3: 
-					greenSQA.menusRegisterClients();
-					System.out.println("The Client has been succesfully registred");
-					break;
-				
-				case 4: 
-					greenSQA.menuCreateProject();
-					System.out.println("The Project has been succesfully registred");
-					break;
+		System.out.println("TYPE 1 TO ENTER INFO MANUALLY | TYPE 2 TO ENTER INFO FROM A FILE");
+		int optional=console.nextInt();
+		if(optional==1){
+			do {
+				System.out.println("\n\n\nPRINCIPAL MENU");
+				System.out.println("Options: ");
+				System.out.println("1.REGISTER MANAGERS ");
+				System.out.println("2.REGISTER COLLABORATORS ");
+				System.out.println("3.REGISTER CLIENTS ");
+				System.out.println("4.REGISTER PROYECTS ");
+				System.out.println("5.APPROVE A STAGE");
+				System.out.println("6.CREATE INFORMATION CAPSULE ");
+				System.out.println("7.CONSULT INFORMATION CAPSULE BY KEYWORDS");
+				System.out.println("8.CONSULT INFORMATION CAPSULE BY TEXT");
+				System.out.println("9.APPROVE INFORMATION CAPSULE ");
+				System.out.println("10.APPROVE INFORMATION CAPSULE TO PUBLISH ");
+				System.out.println("11.PUBLISH INFORMATION CAPSULE ");
+				System.out.println("12.INFORM IF A COLLABORATOR HAS REGISTRED A CAPSULE IN A PROJECT");
+				System.out.print("\nTYPE YOUR OPTION (99 EXIT): ");
+				control = console.nextInt();
+				switch(control) {
+					case 1: 
+						greenSQA.menusRegisterManager();
+						System.out.println("The Manager has been succesfully registred");
+						break;
 					
-				case 5: 
-					greenSQA.menuApproveStage();
-					break;
-				
-				case 6: 
-					greenSQA.menuCreateCapsule();
-					System.out.println("The Capsule has been succesfully registred");
-					break;
-				
-				case 7: 
-					greenSQA.menuConsultCapsulebyKeywords();
-					break;
-				
-				case 8: 
-					greenSQA.menuConsultCapsulebyText();
-					break;
-				
-				case 9: 
-					greenSQA.menuApproveCapsule();
-					System.out.println("The capsule has been succesfully approved");
-					break;
-				
-				case 10: 
-					greenSQA.menuApproveCapsuleToPublish();
-					System.out.println("The manager has been succesfully registred");
-					break;
-				
-				case 11:
-					greenSQA.menuPublishCapsule();
-					break;
+					case 2: 
+						greenSQA.menusRegisterCollaborators();
+						System.out.println("The Collaborator has been succesfully registred");
+						break;
 					
+					case 3: 
+						greenSQA.menusRegisterClients();
+						System.out.println("The Client has been succesfully registred");
+						break;
+					
+					case 4: 
+						greenSQA.menuCreateProject();
+						System.out.println("The Project has been succesfully registred");
+						break;
+						
+					case 5: 
+						greenSQA.menuApproveStage();
+						break;
+					
+					case 6: 
+						greenSQA.menuCreateCapsule();
+						System.out.println("The Capsule has been succesfully registred");
+						break;
+					
+					case 7: 
+						greenSQA.menuConsultCapsulebyKeywords();
+						break;
+					
+					case 8: 
+						greenSQA.menuConsultCapsulebyText();
+						break;
+					
+					case 9: 
+						greenSQA.menuApproveCapsule();
+						System.out.println("The capsule has been succesfully approved");
+						break;
+					
+					case 10: 
+						greenSQA.menuApproveCapsuleToPublish();
+						System.out.println("The manager has been succesfully registred");
+						break;
+					
+					case 11:
+						greenSQA.menuPublishCapsule();
+						break;
+					case 12: 
+						greenSQA.menuConsultCollaboratorbyName();
+						break;
+						
+				}
+			} while (control != 99);
+
+		}else{
+
+			//debo crearlo con el menu de project 
+
+			File fprojects = new File("./src/inData/projects.txt");
+			Scanner inFile = new Scanner(fprojects);
+			String nameProject;
+			String startDateS;
+		
+			String finalDateS;
+			String stageStartDateS;
+			double budget; 
+			String code; 
+			int monthsPerStage=0;
+			String projectManagerId;
+			String clientId;
+
+			while(inFile.hasNext()) {
+				nameProject = inFile.next();
+				System.out.println(nameProject);
+				startDateS=inFile.next();
+				System.out.println(startDateS);
+				String[] parts = startDateS.split("/");
+				int day = Integer.parseInt(parts[0]);
+       			int month = Integer.parseInt(parts[1]) - 1; 
+       			int year = Integer.parseInt(parts[2]);
+       			Calendar startDate= Calendar.getInstance();
+        		startDate.set(year, month, day);
+		
+				finalDateS=inFile.next();
+				parts = startDateS.split("/");
+				day = Integer.parseInt(parts[0]);
+       			month = Integer.parseInt(parts[1]) - 1; 
+       			year = Integer.parseInt(parts[2]);
+       			Calendar finalDate= Calendar.getInstance();
+        		finalDate.set(year, month, day);
+				System.out.println(finalDateS);
+
+				budget=inFile.nextInt();
+				System.out.println(budget);
+				code=inFile.next();
+				System.out.println(code);
+				//crear proyecto
+
+
+				for(int i=0;i<6;i++) {
+					stageStartDateS=inFile.next();
+					String[] stageParts = startDateS.split("/");
+					int stageDay = Integer.parseInt(stageParts[0]);
+       				int stageMonth = Integer.parseInt(stageParts[1]) - 1; 
+       				int stageYear = Integer.parseInt(stageParts[2]);
+       				Calendar stageStartDate= Calendar.getInstance();
+        			stageStartDate.set(stageYear, stageMonth, stageDay);
+					monthsPerStage=inFile.nextInt();
+					greenSQA.getListOfProjects()[(int) greenSQA.getIndexProjects()-1].assignDates(i, stageStartDate, monthsPerStage);	
+				}
+
+
+
+				
 			}
-		} while (control != 99);
+			
+			
+
+			
+			
+
+		}
+
+
+		
 	}
 
 }

@@ -142,6 +142,20 @@ public class Enterprise {
 		}
 		return null;
 	}
+	/**
+	 * Method to search a registred collaborator by his or her name 
+	 * @param name
+	 * @return
+	 */
+
+	public Collaborator searchCollaboratorByName(String name) {
+		for(int i=0;i<indexCollaborator;i++) {
+			if(listOfCollaborator[i].getName().equals(name)) {	
+				return listOfCollaborator[i]; 
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * Method to search a registered client by its id.
@@ -250,7 +264,7 @@ public class Enterprise {
         startDate.set(year, month, day);
 		
 
-		System.out.print("Type the Final Date of the Project (dd/mm/yyyy)");
+		System.out.print("Type the Final Date of the Project (dd/mm/yyyy) ");
 		finalDateS = console.next();
 		parts = finalDateS.split("/");
 		day = Integer.parseInt(parts[0]);
@@ -259,23 +273,31 @@ public class Enterprise {
         Calendar finalDate= Calendar.getInstance();
         finalDate.set(year, month, day);
 		
-		System.out.print("Type the budget of the project");
+		System.out.print("Type the budget of the project: ");
 		budget = console.nextDouble();
-		System.out.print("Type the identification code of the project");
+		System.out.print("Type the identification code of the project: ");
 		code = console.next();
 		
-		System.out.print("Type the Project's client id");
+		System.out.print("Type the Project's client id: ");
 		clientId = console.next();
 		
-		System.out.print("Type the Project's Manager id");
+		System.out.print("Type the Project's Manager id: ");
 		projectManagerId = console.next();
 				
 		createProject(nameProject, startDate, finalDate, budget, code, searchManager(projectManagerId), searchClient(clientId));
 		System.out.println("Type the starts dates and duration of each stage");
 		for(int i=0;i<6;i++) {
+			System.out.println("Type the Start Date of the Stage (dd/mm/yyyy) ");
+			String stageStartDateS = console.next();
+			String[] stageParts = startDateS.split("/");
+			int stageDay = Integer.parseInt(parts[0]);
+        	int stageMonth = Integer.parseInt(parts[1]) - 1; 
+        	int stageYear = Integer.parseInt(parts[2]);
+        	Calendar stageStartDate= Calendar.getInstance();
+        startDate.set(stageYear, stageMonth, stageDay);
 			System.out.println("Type the duration in months of the stage number "+(i+1));
 			monthsPerStage=console.nextInt();
-			listOfProjects[(int) indexProjects-1].assignDates(i, startDate, monthsPerStage);	
+			listOfProjects[(int) indexProjects-1].assignDates(i, stageStartDate, monthsPerStage);	
 		}
 		searchManager(projectManagerId).addProjects(code);
 		searchClient(clientId).addProject(code);
@@ -516,6 +538,101 @@ public class Enterprise {
 		String text=console.next();
 		listOfProjects[numProject].getSpecificStage(numStage).searchCapsuleText(text);
 	
+	}
+	/**
+	 * This menu method will display the menu required to search if a collaborator has registred a capsule in almost one of the registred projects
+	 */
+
+	public void menuConsultCollaboratorbyName(){
+		Scanner console=new Scanner(System.in);
+		String name;
+		boolean collaboratorCreation=false;
+		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("Type the Collaborator's name: ");
+		name=console.next();
+		if(searchCollaboratorByName(name).getCapsulesIndex()>0){
+			collaboratorCreation=true;
+		}
+
+		if(collaboratorCreation==true){
+			System.out.println("The collaborator has registred a capsule in almost one of the different projects");
+		}
+		else if(collaboratorCreation==false){
+			System.out.println("The collaborator has NOT registred a capsule in almost one of the different projects");
+		}
+	
+	}
+		
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Project[] getListOfProjects() {
+		return this.listOfProjects;
+	}
+
+	public void setListOfProjects(Project[] listOfProjects) {
+		this.listOfProjects = listOfProjects;
+	}
+
+	public int getIndexProjects() {
+		return this.indexProjects;
+	}
+
+	public void setIndexProjects(int indexProjects) {
+		this.indexProjects = indexProjects;
+	}
+
+	public ProjectManager[] getListOfProjectManager() {
+		return this.listOfProjectManager;
+	}
+
+	public void setListOfProjectManager(ProjectManager[] listOfProjectManager) {
+		this.listOfProjectManager = listOfProjectManager;
+	}
+
+	public int getIndexProjectManager() {
+		return this.indexProjectManager;
+	}
+
+	public void setIndexProjectManager(int indexProjectManager) {
+		this.indexProjectManager = indexProjectManager;
+	}
+
+	public Client[] getListOfClient() {
+		return this.listOfClient;
+	}
+
+	public void setListOfClient(Client[] listOfClient) {
+		this.listOfClient = listOfClient;
+	}
+
+	public int getIndexClients() {
+		return this.indexClients;
+	}
+
+	public void setIndexClients(int indexClients) {
+		this.indexClients = indexClients;
+	}
+
+	public Collaborator[] getListOfCollaborator() {
+		return this.listOfCollaborator;
+	}
+
+	public void setListOfCollaborator(Collaborator[] listOfCollaborator) {
+		this.listOfCollaborator = listOfCollaborator;
+	}
+
+	public int getIndexCollaborator() {
+		return this.indexCollaborator;
+	}
+
+	public void setIndexCollaborator(int indexCollaborator) {
+		this.indexCollaborator = indexCollaborator;
 	}
 	
 	
