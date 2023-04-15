@@ -53,7 +53,7 @@ public class Enterprise {
 	
 	public void registerProjectManager(String name, String phone, String id) {
 		ProjectManager manager= new ProjectManager(name, phone, id);
-		this.listOfProjectManager[this.indexProjectManager]=manager;
+		this.listOfProjectManager[indexProjectManager]=manager;
 		this.indexProjectManager++;	
 	}
 	
@@ -81,9 +81,24 @@ public class Enterprise {
 	 
 	
 	public void createProject(String name, Calendar startDate, Calendar finalDate, double budget, String code, ProjectManager manager, Client client) {
-		listOfProjects[(int) this.indexProjects]=new Project(name, startDate, finalDate, budget, code, manager, client);
-		indexProjects++;
+		Project project= new Project(name, startDate, finalDate, budget, code, manager, client);
+		this.listOfProjects[indexProjects]=project;
+		this.indexProjects++;
 	}
+
+	public String projectWithMoreCapsules(){
+		int greater=0;
+		String projectName="";
+		for(int i=0;i<this.indexProjects;i++){
+			if(this.listOfProjects[i].countTotalCapsules()>=greater){
+				greater=this.listOfProjects[i].countTotalCapsules();
+				projectName=this.listOfProjects[i].getName();
+			}
+		}
+		return projectName;
+
+	}
+	
 	
 	/**
 	 * Method to search a registered project manager by its id.
@@ -105,12 +120,11 @@ public class Enterprise {
 	 * @param code
 	 * @return the project (object) searched 
 	 */
-	 
 	
 	public Project searchProject(String code) {
-		for(int i=0;i<indexProjects;i++) {
-			if(listOfProjects[i].getCode().equals(code)) {	
-				return listOfProjects[i]; 
+		for(int i=0;i<this.indexProjects;i++) {
+			if(this.listOfProjects[i].getCode().equals(code)) {	
+				return this.listOfProjects[i]; 
 			}
 		}
 		return null;
@@ -122,8 +136,8 @@ public class Enterprise {
 	 * @return the project position in the array
 	 */
 	public int obtainProjectNumber(String code) {
-		for(int i=0;i<indexProjects;i++) {
-			if(listOfProjects[i].getCode().equals(code)) {
+		for(int i=0;i<this.indexProjects;i++) {
+			if(this.listOfProjects[i].getCode().equals(code)) {
 				return i;}
 			}
 		return -1;
@@ -135,9 +149,9 @@ public class Enterprise {
 	 * @return the collaborator searched
 	 */
 	public Collaborator searchCollaborator(String id) {
-		for(int i=0;i<indexCollaborator;i++) {
-			if(listOfCollaborator[i].getId().equals(id)) {	
-				return listOfCollaborator[i]; 
+		for(int i=0;i<this.indexCollaborator;i++) {
+			if(this.listOfCollaborator[i].getId().equals(id)) {	
+				return this.listOfCollaborator[i]; 
 			}
 		}
 		return null;
@@ -149,9 +163,9 @@ public class Enterprise {
 	 */
 
 	public Collaborator searchCollaboratorByName(String name) {
-		for(int i=0;i<indexCollaborator;i++) {
-			if(listOfCollaborator[i].getName().equals(name)) {	
-				return listOfCollaborator[i]; 
+		for(int i=0;i<this.indexCollaborator;i++) {
+			if(this.listOfCollaborator[i].getName().equals(name)) {	
+				return this.listOfCollaborator[i]; 
 			}
 		}
 		return null;
@@ -163,9 +177,9 @@ public class Enterprise {
 	 * @return the client searched
 	 */
 	public  Client searchClient(String id) {
-		for(int i=0;i<indexClients;i++) {
-			if(listOfClient[i].getId().equals(id)) {	
-				return listOfClient[i]; 
+		for(int i=0;i<this.indexClients;i++) {
+			if(this.listOfClient[i].getId().equals(id)) {	
+				return this.listOfClient[i]; 
 			}
 		}
 		return null;
@@ -297,7 +311,7 @@ public class Enterprise {
         startDate.set(stageYear, stageMonth, stageDay);
 			System.out.println("Type the duration in months of the stage number "+(i+1));
 			monthsPerStage=console.nextInt();
-			listOfProjects[(int) indexProjects-1].assignDates(i, stageStartDate, monthsPerStage);	
+			this.listOfProjects[(int) this.indexProjects-1].assignDates(i, stageStartDate, monthsPerStage);	
 		}
 		searchManager(projectManagerId).addProjects(code);
 		searchClient(clientId).addProject(code);
@@ -312,7 +326,7 @@ public class Enterprise {
 		int numProject;
 		int numStage;
 		Scanner console= new Scanner(System.in);
-		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("MENU: APPROVE STAGE");
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
@@ -350,7 +364,7 @@ public class Enterprise {
 		int numProject;
 		int numStage;
 		Scanner console= new Scanner(System.in);
-		System.out.println("MENU: PROJECT CREATION");
+		System.out.println("MENU: CREATE CAPSULE");
 		System.out.println("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
@@ -364,7 +378,7 @@ public class Enterprise {
 		numStage= console.nextInt();
 		console.nextLine();
 		numStage=numStage-1;
-		if(listOfProjects[numProject].getSpecificStage(numStage).isAvaiable()==false) {
+		if(this.listOfProjects[numProject].getSpecificStage(numStage).isAvaiable()==false) {
 			System.out.println("The stage is not yet avaiable");
 		}
 		else
@@ -376,7 +390,7 @@ public class Enterprise {
 			System.out.println("5: EXPERIENCES");
 			int capsuleType=console.nextInt();
 			console.nextLine();
-			capsuleType=capsuleType-1;
+			capsuleType=capsuleType;
 			System.out.println("TYPE THE ID OF THE COLLABORATOR");
 			String id=console.nextLine();
 			searchCollaborator(id);
@@ -387,8 +401,8 @@ public class Enterprise {
 			System.out.println("TYPE THE IDENTIFICATION CODE OF THE CAPSULE");
 			String code=console.nextLine();
 			
-			listOfProjects[numProject].getSpecificStage(numStage).createCapsule(capsuleType, searchCollaborator(id), description, learning, code,codeProject, (numStage+1));
-			System.out.println(listOfProjects[numProject].getSpecificStage(numStage).getSpecificCapsule(0).toString());
+			this.listOfProjects[numProject].getSpecificStage(numStage).createCapsule(capsuleType, searchCollaborator(id), description, learning, code,codeProject, (numStage+1));
+			System.out.println(this.listOfProjects[numProject].getSpecificStage(numStage).getSpecificCapsule(0).toString());
 			
 		}
 		
@@ -402,7 +416,7 @@ public class Enterprise {
 		int numProject;
 		int numStage;
 		Scanner console= new Scanner(System.in);
-		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("MENU: APPROVE CAPSULE");
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
@@ -417,8 +431,8 @@ public class Enterprise {
 		numStage=numStage-1;
 		System.out.println("Type the capsule's code to approve");
 		String capsuleCode=console.next();
-		int capsuleNumber=listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
-		listOfProjects[numProject].getSpecificStage(numStage).approveCapsule(capsuleNumber, true);
+		int capsuleNumber=this.listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
+		this.listOfProjects[numProject].getSpecificStage(numStage).approveCapsule(capsuleNumber, true);
 		
 	}
 	/**
@@ -429,7 +443,7 @@ public class Enterprise {
 		int numProject;
 		int numStage;
 		Scanner console= new Scanner(System.in);
-		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("MENU: APPROVE CAPSULE TO PUBLISH");
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
@@ -444,8 +458,8 @@ public class Enterprise {
 		numStage=numStage-1;
 		System.out.println("Type the capsule's code to approve");
 		String capsuleCode=console.next();
-		int capsuleNumber=listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
-		listOfProjects[numProject].getSpecificStage(numStage).approveToPublish(capsuleNumber, true);
+		int capsuleNumber=this.listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
+		this.listOfProjects[numProject].getSpecificStage(numStage).approveToPublish(capsuleNumber, true);
 		
 	}
 	/**
@@ -457,7 +471,7 @@ public class Enterprise {
 		int numProject;
 		int numStage;
 		Scanner console= new Scanner(System.in);
-		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("MENU: PUBLISH CAPSULE");
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
@@ -472,10 +486,10 @@ public class Enterprise {
 		numStage=numStage-1;
 		System.out.println("Type the capsule's code to publish");
 		String capsuleCode=console.next();
-		int capsuleNumber=listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
+		int capsuleNumber=this.listOfProjects[numProject].getSpecificStage(numStage).obtainCapsuleNumber(capsuleCode);
 		System.out.println("Type the HTML or URL of the capsule");
 		String urlCapsule=console.next();
-		listOfProjects[numProject].getSpecificStage(numStage).publishCapsule(capsuleNumber, urlCapsule);
+		this.listOfProjects[numProject].getSpecificStage(numStage).publishCapsule(capsuleNumber, urlCapsule);
 		
 	}
 	/**
@@ -487,7 +501,7 @@ public class Enterprise {
 		int numProject;
 		int numStage;
 		Scanner console= new Scanner(System.in);
-		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("MENU: CONSULT CAPSULE BY KEYWORDS");
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
@@ -508,7 +522,7 @@ public class Enterprise {
 			keywords[i]=console.next();
 		}
 		
-		listOfProjects[numProject].getSpecificStage(numStage).searchCapsuleKeywords(keywords);
+		this.listOfProjects[numProject].getSpecificStage(numStage).searchCapsuleKeywords(keywords);
 		
 		
 	}
@@ -521,7 +535,7 @@ public class Enterprise {
 		int numProject;
 		int numStage;
 		Scanner console= new Scanner(System.in);
-		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("MENU: CONSULT CAPSULE BY TEXT");
 		System.out.print("Type the Project Code: ");
 		codeProject= console.next();
 		numProject=obtainProjectNumber(codeProject);
@@ -536,7 +550,7 @@ public class Enterprise {
 		numStage=numStage-1;
 		System.out.print("Type the text to search: ");
 		String text=console.next();
-		listOfProjects[numProject].getSpecificStage(numStage).searchCapsuleText(text);
+		this.listOfProjects[numProject].getSpecificStage(numStage).searchCapsuleText(text);
 	
 	}
 	/**
@@ -547,7 +561,7 @@ public class Enterprise {
 		Scanner console=new Scanner(System.in);
 		String name;
 		boolean collaboratorCreation=false;
-		System.out.print("MENU: PROJECT CREATION");
+		System.out.print("MENU: CONSULT COLLABORATOR BY NAME");
 		System.out.print("Type the Collaborator's name: ");
 		name=console.next();
 		if(searchCollaboratorByName(name).getCapsulesIndex()>0){
@@ -562,6 +576,68 @@ public class Enterprise {
 		}
 	
 	}
+
+	public void menuInformcapsulesRegistredbyType(){
+		int technique=0; 
+		int management=0; 
+		int domain=0; 
+		int experiencies=0; 
+		for(int p=0;p<this.indexProjects;p++){
+			for(int s=0;s<6;s++){
+				technique=technique+this.listOfProjects[p].getSpecificStage(s).getTechnique();
+				management=management+this.listOfProjects[p].getSpecificStage(s).getManagement();
+				domain=domain+this.listOfProjects[p].getSpecificStage(s).getDomain();
+				experiencies= experiencies+this.listOfProjects[p].getSpecificStage(s).getExperiencies();
+			}
+
+		}
+		System.out.println("In all the registred projects has been created: ");
+		System.out.println("TECHNIQUE CAPSULES: "+technique);
+		System.out.println("MANAGEMENT CAPSULES: "+management);
+		System.out.println("DOMAIN CAPSULES: "+domain);
+		System.out.println("EXPERIENCES CAPSULES: "+experiencies);
+
+	}
+
+	
+	public void menuProjectWithMoreCapsules(){
+		System.out.println("At this moment the project with more capsules is: ");
+		System.out.println(projectWithMoreCapsules());
+		
+	}
+	/**
+	 * This menu method will display the menu required to print all the learning of the capsules in a project for a specific stage 
+	 */
+
+	public void menuLearningperStage(){
+		String codeProject;
+		int numProject;
+		int numStage;
+		Scanner console= new Scanner(System.in);
+		System.out.print("MENU: CONSULT LEARNING PER STAGE");
+		System.out.print("Type the Project Code: ");
+		codeProject= console.next();
+		numProject=obtainProjectNumber(codeProject);
+		System.out.println("Type the Stage Number: ");
+		System.out.println("1: START");
+		System.out.println("2: ANALYSIS");
+		System.out.println("3: DESIGN");
+		System.out.println("4: EXECUTION");
+		System.out.println("5: CLOSE");
+		System.out.println("6: TRACING AND PROYECT CONTROL");
+		numStage= console.nextInt();
+		numStage=numStage-1;
+		int lenght; 
+		lenght= searchProject(codeProject).getSpecificStage(numStage).getCapsuleIndex();
+		String [] learnings= new String[lenght];
+		System.out.println("The learnings per stage are: ");
+		for(int i=0;i<lenght;i++ ){
+			learnings[i]=searchProject(codeProject).getSpecificStage(numStage).getSpecificCapsule(i).getLearning();
+			System.out.println(learnings[i]);
+		}
+	}
+
+
 		
 	public String getName() {
 		return this.name;

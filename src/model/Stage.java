@@ -30,8 +30,155 @@ public class Stage {
 	private Capsule []capsules = new Capsule[50];
 	private String [] capsuleType= {"TECHNIQUE", "MANAGEMENT", "DOMAIN", "EXPERIENCES"};
 	private int capsuleIndex=0;
+	private int technique=0;
+	private int management=0;
+	private int domain=0;
+	private int experiencies=0;
 	
 	
+
+
+	/**
+	 * Method to create a capsule in the stage
+	 * @param selectCapsuleType
+	 * @param collaborator
+	 * @param description
+	 * @param learning
+	 * @param code
+	 * @param ProjectCode
+	 * @param stageCapsuleNumber
+	 */
+
+
+	public void createCapsule(int selectCapsuleType, Collaborator collaborator, String description, String learning, String code, String ProjectCode, int stageCapsuleNumber) {
+		this.capsules[this.capsuleIndex]= new Capsule(this.capsuleIndex,capsuleType[selectCapsuleType], collaborator, description, learning, code, ProjectCode, stageCapsuleNumber);
+		if(selectCapsuleType==1){
+			this.technique++;
+
+		}else if(selectCapsuleType==2){
+			this.management++;
+			
+
+		}else if(selectCapsuleType==3){
+			this.domain++;
+
+		}else if(selectCapsuleType==4){
+			this.experiencies++;
+		}
+		capsuleIndex++;
+	}
+	/**
+	 * Method to obtain a capsule number position in the array that stores it in the stage 
+	 * @param code
+	 * @return
+	 */
+	public int obtainCapsuleNumber(String code) {
+		for(int i=0;i<capsuleIndex;i++) {
+			if(this.capsules[i].getCode().equals(code)) {
+				return i;}
+			}
+		return -1;
+	}
+	/**
+	 * Method to approve the information of a capsule that is stored the stage
+	 * @param capsuleNumber
+	 * @param approve
+	 */
+	
+	public void approveCapsule(int capsuleNumber, boolean approve) {
+		this.capsules[capsuleNumber].setApproved(approve);
+		this.capsules[capsuleNumber].setApprovalDate(currentDate);
+	}
+
+	/**
+	 * Method to approve the publication of a capsule that is stored in the stage
+	 * @param capsuleNumber
+	 * @param approve
+	 */
+	public void approveToPublish(int capsuleNumber, boolean approve)
+	{
+		if(this.capsules[capsuleNumber].isApproved()==true) {
+		this.capsules[capsuleNumber].setApprovedToPublish(approve);
+		}else {
+			System.out.println("The capsule has not been yet approved");
+		}
+		
+		
+	}
+	/**
+	 * Method to publish a capsule that his information has been previously approved and was also approved to be published
+	 * @param capsuleNumber
+	 * @param html
+	 */
+	public void publishCapsule(int capsuleNumber, String html) {
+		
+		if(this.capsules[capsuleNumber].isApproved()==true && this.capsules[capsuleNumber].isApprovedToPublish()==true) {
+			this.capsules[capsuleNumber].setHtml(html);
+			
+		}else if(this.capsules[capsuleNumber].isApproved()==false && this.capsules[capsuleNumber].isApprovedToPublish()==false) {
+			System.out.println("The capsule is not approved to be published");
+		}
+		else {
+			System.out.println("The capsule is not approved to be published");
+		}
+		
+		
+	}
+	
+	/**
+	 * Method to search a capsule by its keywords
+	 * @param keywords
+	 * @return capsule searched
+	 */
+	
+	
+	public String searchCapsuleKeywords(String keywords[]) {
+		Scanner console= new Scanner(System.in);
+		int optional;
+		for(int c=0;c<this.capsuleIndex;c++) {
+			for(int r=0;r<this.capsules[c].getKeywords().length;r++) {
+				for(int k=0;k<keywords.length;k++) {
+					if(this.capsules[c].getSpecificKeyword(r).equals(keywords[k])) {
+						System.out.println("Is this the capsule you were searching?");
+						System.out.println(this.capsules[c].toString());
+						System.out.println("YES [1] NO [2]");
+						optional=console.nextInt();
+						if(optional==1) {
+							break;
+						}
+						
+					}
+					
+				}
+				
+			}
+		}
+		return null;	
+	}
+	/**
+	 * Method to search a capsule by a fragment of its description or learning 
+	 * @param text
+	 * @return capsule searched
+	 */
+	
+	public Capsule searchCapsuleText(String text) {
+		Scanner console= new Scanner(System.in);
+		int optional=0;
+		for(int i=0;i<this.capsules.length;i++) {
+			
+				if((this.capsules[i].getDescription().contains(text)) || (this.capsules[i].getLearning().contains(text))) {
+					
+					System.out.println("Is this the capsule you were searching?");
+					System.out.println(this.capsules[i].toString());
+					System.out.println("YES [1] NO [2]");
+					optional=console.nextInt();
+					if(optional==1) {
+						return this.capsules[i];}
+					}	
+				
+			}
+		return null;
+	}
 	public String getName() {
 		return name;
 	}
@@ -123,101 +270,45 @@ public class Stage {
 		this.capsules = capsules;
 	}
 
-	public void createCapsule(int selectCapsuleType, Collaborator collaborator, String description, String learning, String code, String ProjectCode, int stageCapsuleNumber) {
-		this.capsules[this.capsuleIndex]= new Capsule(this.capsuleIndex,capsuleType[selectCapsuleType], collaborator, description, learning, code, ProjectCode, stageCapsuleNumber);
-		capsuleIndex++;
+	public int getTechnique() {
+		return this.technique;
 	}
-	
-	public int obtainCapsuleNumber(String code) {
-		for(int i=0;i<capsuleIndex;i++) {
-			if(this.capsules[i].getCode().equals(code)) {
-				return i;}
-			}
-		return -1;
+
+	public void setTechnique(int technique) {
+		this.technique = technique;
 	}
-	
-	public void approveCapsule(int capsuleNumber, boolean approve) {
-		this.capsules[capsuleNumber].setApproved(approve);
-		this.capsules[capsuleNumber].setApprovalDate(currentDate);
+
+	public int getManagement() {
+		return this.management;
 	}
-	public void approveToPublish(int capsuleNumber, boolean approve)
-	{
-		if(this.capsules[capsuleNumber].isApproved()==true) {
-		this.capsules[capsuleNumber].setApprovedToPublish(approve);
-		}else {
-			System.out.println("The capsule has not been yet approved");
-		}
-		
-		
+
+	public void setManagement(int management) {
+		this.management = management;
 	}
-	public void publishCapsule(int capsuleNumber, String html) {
-		
-		if(this.capsules[capsuleNumber].isApproved()==true && this.capsules[capsuleNumber].isApprovedToPublish()==true) {
-			this.capsules[capsuleNumber].setHtml(html);
-			
-		}else if(this.capsules[capsuleNumber].isApproved()==false && this.capsules[capsuleNumber].isApprovedToPublish()==false) {
-			System.out.println("The capsule is not approved to be published");
-		}
-		else {
-			System.out.println("The capsule is not approved to be published");
-		}
-		
-		
+
+	public int getDomain() {
+		return this.domain;
 	}
-	
-	/**
-	 * Method to search a capsule by its keywords
-	 * @param keywords
-	 * @return capsule searched
-	 */
-	
-	
-	public String searchCapsuleKeywords(String keywords[]) {
-		Scanner console= new Scanner(System.in);
-		int optional;
-		for(int c=0;c<this.capsuleIndex;c++) {
-			for(int r=0;r<this.capsules[c].getKeywords().length;r++) {
-				for(int k=0;k<keywords.length;k++) {
-					if(this.capsules[c].getSpecificKeyword(r).equals(keywords[k])) {
-						System.out.println("Is this the capsule you were searching?");
-						System.out.println(this.capsules[c].toString());
-						System.out.println("YES [1] NO [2]");
-						optional=console.nextInt();
-						if(optional==1) {
-							break;
-						}
-						
-					}
-					
-				}
-				
-			}
-		}
-		return null;	
+
+	public void setDomain(int domain) {
+		this.domain = domain;
 	}
-	/**
-	 * Method to search a capsule by a fragment of its description or learning 
-	 * @param text
-	 * @return capsule searched
-	 */
-	
-	public Capsule searchCapsuleText(String text) {
-		Scanner console= new Scanner(System.in);
-		int optional=0;
-		for(int i=0;i<this.capsules.length;i++) {
-			
-				if((this.capsules[i].getDescription().contains(text)) || (this.capsules[i].getLearning().contains(text))) {
-					
-					System.out.println("Is this the capsule you were searching?");
-					System.out.println(this.capsules[i].toString());
-					System.out.println("YES [1] NO [2]");
-					optional=console.nextInt();
-					if(optional==1) {
-						return this.capsules[i];}
-					}	
-				
-			}
-		return null;
+
+	public int getExperiencies() {
+		return this.experiencies;
+	}
+
+	public void setExperiencies(int experiencies) {
+		this.experiencies = experiencies;
+	}
+
+
+	public int getCapsuleIndex() {
+		return this.capsuleIndex;
+	}
+
+	public void setCapsuleIndex(int capsuleIndex) {
+		this.capsuleIndex = capsuleIndex;
 	}
 	
 	

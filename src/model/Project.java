@@ -37,6 +37,7 @@ public class Project {
 	private int [] stageMonths;
 	private ProjectManager manager; 
 	private Client client;
+	private int totalCapsules;
 
 	
 	/**
@@ -101,7 +102,16 @@ public class Project {
 		this.stages[stageNumber].setRealFinalDate(currentDate);
 		this.stages[stageNumber+1].setAvaiable(true);
 	}
-	
+	/**
+	 * Method to calculate the total capsules of the project per stage 
+	 * @return
+	 */
+	public int countTotalCapsules(){
+		for(int i=0;i<6;i++){
+			this.totalCapsules=this.totalCapsules+(this.stages[i].getCapsuleIndex()+1);
+		}
+		return this.totalCapsules;
+	}
 
 	public String getName() {
 		return name;

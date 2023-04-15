@@ -57,6 +57,9 @@ public class Main {
 				System.out.println("10.APPROVE INFORMATION CAPSULE TO PUBLISH ");
 				System.out.println("11.PUBLISH INFORMATION CAPSULE ");
 				System.out.println("12.INFORM IF A COLLABORATOR HAS REGISTRED A CAPSULE IN A PROJECT");
+				System.out.println("13.CONSULT THE PROJECT WITH MORE CAPSULES REGISTRED");
+				System.out.println("14.INFORM THE TOTAL CAPSULES REGISTRED BY TYPE");
+				System.out.println("15.INFORM LEARNINGS PER STAGE IN A PROJECT");
 				System.out.print("\nTYPE YOUR OPTION (99 EXIT): ");
 				control = console.nextInt();
 				switch(control) {
@@ -113,7 +116,16 @@ public class Main {
 					case 12: 
 						greenSQA.menuConsultCollaboratorbyName();
 						break;
-						
+					case 13: 
+						greenSQA.menuProjectWithMoreCapsules();
+						break;
+					case 14:
+						greenSQA.menuInformcapsulesRegistredbyType();
+						break;
+					case 15:
+						greenSQA.menuLearningperStage();
+						break;
+	
 				}
 			} while (control != 99);
 
