@@ -2,6 +2,8 @@ package model;
 import model.Capsule;
 import java.util.Calendar;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 /**
  * This Class is to instantiate a stage of a project with its needed attributed:
  * stage name: "START", "ANALYSIS", "DESIGN", "EXECUTION", "CLOSE", "TRACING", or "PROYECT CONTROL"
@@ -52,17 +54,17 @@ public class Stage {
 
 	public void createCapsule(int selectCapsuleType, Collaborator collaborator, String description, String learning, String code, String ProjectCode, int stageCapsuleNumber) {
 		this.capsules[this.capsuleIndex]= new Capsule(this.capsuleIndex,capsuleType[selectCapsuleType], collaborator, description, learning, code, ProjectCode, stageCapsuleNumber);
-		if(selectCapsuleType==1){
+		if(selectCapsuleType==0){
 			this.technique++;
 
-		}else if(selectCapsuleType==2){
+		}else if(selectCapsuleType==1){
 			this.management++;
 			
 
-		}else if(selectCapsuleType==3){
+		}else if(selectCapsuleType==2){
 			this.domain++;
 
-		}else if(selectCapsuleType==4){
+		}else if(selectCapsuleType==3){
 			this.experiencies++;
 		}
 		capsuleIndex++;
@@ -139,6 +141,7 @@ public class Stage {
 			for(int r=0;r<this.capsules[c].getKeywords().length;r++) {
 				for(int k=0;k<keywords.length;k++) {
 					if(this.capsules[c].getSpecificKeyword(r).equals(keywords[k])) {
+						if(this.capsules[c].isApproved()==true && this.capsules[c].isApprovedToPublish()==true){
 						System.out.println("Is this the capsule you were searching?");
 						System.out.println(this.capsules[c].toString());
 						System.out.println("YES [1] NO [2]");
@@ -146,6 +149,9 @@ public class Stage {
 						if(optional==1) {
 							break;
 						}
+
+						}
+						
 						
 					}
 					
@@ -164,21 +170,27 @@ public class Stage {
 	public Capsule searchCapsuleText(String text) {
 		Scanner console= new Scanner(System.in);
 		int optional=0;
-		for(int i=0;i<this.capsules.length;i++) {
+		for(int i=0;i<this.capsuleIndex;i++) {
 			
 				if((this.capsules[i].getDescription().contains(text)) || (this.capsules[i].getLearning().contains(text))) {
+					if(this.capsules[i].isApproved()==true && this.capsules[i].isApprovedToPublish()==true){
+						System.out.println("Is this the capsule you were searching?");
+						System.out.println(this.capsules[i].toString());
+						System.out.println("YES [1] NO [2]");
+						optional=console.nextInt();
+						if(optional==1) {
+							return this.capsules[i];
+						}
+						}	
+					}
 					
-					System.out.println("Is this the capsule you were searching?");
-					System.out.println(this.capsules[i].toString());
-					System.out.println("YES [1] NO [2]");
-					optional=console.nextInt();
-					if(optional==1) {
-						return this.capsules[i];}
-					}	
 				
 			}
 		return null;
 	}
+
+
+	
 	public String getName() {
 		return name;
 	}

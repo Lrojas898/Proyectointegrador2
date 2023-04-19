@@ -39,9 +39,6 @@ public class Main {
 		Scanner console= new Scanner(System.in);
 		Enterprise greenSQA= new Enterprise("Green SQA");
 		int control = 99;
-		System.out.println("TYPE 1 TO ENTER INFO MANUALLY | TYPE 2 TO ENTER INFO FROM A FILE");
-		int optional=console.nextInt();
-		if(optional==1){
 			do {
 				System.out.println("\n\n\nPRINCIPAL MENU");
 				System.out.println("Options: ");
@@ -128,80 +125,13 @@ public class Main {
 	
 				}
 			} while (control != 99);
-
-		}else{
-
-			//debo crearlo con el menu de project 
-
-			File fprojects = new File("./src/inData/projects.txt");
-			Scanner inFile = new Scanner(fprojects);
-			String nameProject;
-			String startDateS;
-		
-			String finalDateS;
-			String stageStartDateS;
-			double budget; 
-			String code; 
-			int monthsPerStage=0;
-			String projectManagerId;
-			String clientId;
-
-			while(inFile.hasNext()) {
-				nameProject = inFile.next();
-				System.out.println(nameProject);
-				startDateS=inFile.next();
-				System.out.println(startDateS);
-				String[] parts = startDateS.split("/");
-				int day = Integer.parseInt(parts[0]);
-       			int month = Integer.parseInt(parts[1]) - 1; 
-       			int year = Integer.parseInt(parts[2]);
-       			Calendar startDate= Calendar.getInstance();
-        		startDate.set(year, month, day);
-		
-				finalDateS=inFile.next();
-				parts = startDateS.split("/");
-				day = Integer.parseInt(parts[0]);
-       			month = Integer.parseInt(parts[1]) - 1; 
-       			year = Integer.parseInt(parts[2]);
-       			Calendar finalDate= Calendar.getInstance();
-        		finalDate.set(year, month, day);
-				System.out.println(finalDateS);
-
-				budget=inFile.nextInt();
-				System.out.println(budget);
-				code=inFile.next();
-				System.out.println(code);
-				//crear proyecto
-
-
-				for(int i=0;i<6;i++) {
-					stageStartDateS=inFile.next();
-					String[] stageParts = startDateS.split("/");
-					int stageDay = Integer.parseInt(stageParts[0]);
-       				int stageMonth = Integer.parseInt(stageParts[1]) - 1; 
-       				int stageYear = Integer.parseInt(stageParts[2]);
-       				Calendar stageStartDate= Calendar.getInstance();
-        			stageStartDate.set(stageYear, stageMonth, stageDay);
-					monthsPerStage=inFile.nextInt();
-					greenSQA.getListOfProjects()[(int) greenSQA.getIndexProjects()-1].assignDates(i, stageStartDate, monthsPerStage);	
-				}
-
-
-
-				
-			}
-			
-			
-
-			
-			
-
-		}
-
-
-		
 	}
 
-}
+		}
+			
+			
+
+			
+		
 
 
