@@ -67,7 +67,7 @@ public class Stage {
 		}else if(selectCapsuleType==3){
 			this.experiencies++;
 		}
-		capsuleIndex++;
+		this.capsuleIndex++;
 	}
 	/**
 	 * Method to obtain a capsule number position in the array that stores it in the stage 

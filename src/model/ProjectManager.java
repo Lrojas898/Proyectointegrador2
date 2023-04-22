@@ -25,8 +25,6 @@ public class ProjectManager {
 	 * @param id
 	 */
 
-	
-	
 	public ProjectManager(String name, String phone, String id) {
 		this.name = name;
 		this.phone = phone;

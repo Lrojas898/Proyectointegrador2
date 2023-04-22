@@ -1,0 +1,10 @@
+P00342	1	1	ID105459	descripcionDeCapsula#palabraClave01#	aprendizajeDeCapsula#palabraClaveLearning01#	C001
+P00343	1	2	ID105459	descripcionDeCapsula#palabraClave02#	aprendizajeDeCapsula#palabraClaveLearnin02g#	C002
+P00999	1	3	ID105459	descripcionDeCapsula#palabraClave03#	aprendizajeDeCapsula#palabraClaveLearning03#	C003
+P00999	1	4	ID105459	descripcionDeCapsula#palabraClave04#	aprendizajeDeCapsula#palabraClaveLearning04#	C004
+P00999	1	1	ID105459	descripcionDeCapsula#palabraClave05#	aprendizajeDeCapsula#palabraClaveLearning05#	C005
+P00999	1	2	ID105459	descripcionDeCapsula#palabraClave06#	aprendizajeDeCapsula#palabraClaveLearning06#	C006
+P00887	1	3	ID105459	descripcionDeCapsula#palabraClave07#	aprendizajeDeCapsula#palabraClaveLearning07#	C007
+P00887	1	4	ID105459	descripcionDeCapsula#palabraClave08#	aprendizajeDeCapsula#palabraClaveLearning08#	C008
+P00887	1	2	ID105459	descripcionDeCapsula#palabraClave09#	aprendizajeDeCapsula#palabraClaveLearning09#	C009
+P00457	1	2	ID105459	descripcionDeCapsula#palabraClave10#	aprendizajeDeCapsula#palabraClaveLearning10#	C010

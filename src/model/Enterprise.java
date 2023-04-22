@@ -1,11 +1,12 @@
 package model;
+import inData.*;
 import model.Project;
-
 import model.ProjectManager;
 import model.Client;
 import model.Stage;
 import model.Collaborator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Scanner;
 import java.io.File;
@@ -43,8 +44,8 @@ public class Enterprise {
 	 * @param phone
 	 */
 	public void registerClients(String name, String id, String phone) {
-		listOfClient[(int) indexClients]= new Client(name, id, phone);
-		indexClients++;
+		this.listOfClient[(int) indexClients]= new Client(name, id, phone);
+		this.indexClients++;
 	}
 	/**
 	 * Method to instantiate the active project managers of the company. 
@@ -54,8 +55,7 @@ public class Enterprise {
 	 */
 	
 	public void registerProjectManager(String name, String phone, String id) {
-		ProjectManager manager= new ProjectManager(name, phone, id);
-		this.listOfProjectManager[indexProjectManager]=manager;
+		this.listOfProjectManager[indexProjectManager]=new ProjectManager(name, phone, id);
 		this.indexProjectManager++;	
 	}
 	
@@ -66,7 +66,7 @@ public class Enterprise {
 	 * @param phone
 	 * @param position
 	 */
-	public void registerCollaborators(String name, String id,  String phone, String position) {
+	public void registerCollaborators(String name, String id, String phone, String position) {
 	this.listOfCollaborator[(int) indexCollaborator]=new Collaborator(name, id, phone, position);
 	this.indexCollaborator++;	
 	}
@@ -82,9 +82,8 @@ public class Enterprise {
 	 */
 	 
 	
-	public void createProject(String name, Calendar startDate, Calendar finalDate, double budget, String code, ProjectManager manager, Client client) {
-		Project project= new Project(name, startDate, finalDate, budget, code, manager, client);
-		this.listOfProjects[indexProjects]=project;
+	public void createProject(String name, Calendar startDate, Calendar finalDate, double budget, String code, ProjectManager manager, Client client) { 
+		this.listOfProjects[this.indexProjects]=new Project(name, startDate, finalDate, budget, code, manager, client);
 		this.indexProjects++;
 	}
 
@@ -109,7 +108,7 @@ public class Enterprise {
 	 */
 	
 	public ProjectManager searchManager(String id) {
-		for(int i=0;i<this.listOfProjectManager.length;i++) {
+		for(int i=0;i<this.indexProjectManager;i++) {
 			if(this.listOfProjectManager[i].getId().equals(id)) {
 				return this.listOfProjectManager[i]; 
 			}
@@ -138,11 +137,14 @@ public class Enterprise {
 	 * @return the project position in the array
 	 */
 	public int obtainProjectNumber(String code) {
+		int position=-1;
 		for(int i=0;i<this.indexProjects;i++) {
 			if(this.listOfProjects[i].getCode().equals(code)) {
-				return i;}
+				position=i;
+				break;
 			}
-		return -1;
+			}
+		return position;
 	}
 	
 	/**
@@ -196,7 +198,6 @@ public class Enterprise {
 		String name;
 		String phone;
 		String id;
-		
 		System.out.println("MENU: PROJECT MANAGER CREATION");
 		System.out.print("Type the Manager's Name: ");
 		name=console.next();
@@ -647,26 +648,25 @@ public class Enterprise {
 	}
 
 	public void readManagers() throws FileNotFoundException{
-	
 
-		File fmanagers= new File("./src/inData/managers.text");
+		File fmanagers= new File("inData/managers.txt");
 		Scanner inFile= new Scanner(fmanagers);
-
 		String name; 
 		String phone;
 		String id;
+		
 		while(inFile.hasNext()){
-			name=inFile.nextLine();
-			phone=inFile.nextLine();
-			id= inFile.nextLine();
+			name=inFile.next()+" "+inFile.next();
+			phone=inFile.next();
+			id= inFile.next();
 			registerProjectManager(name, phone, id);
 		}
-
+		
 	}
 
 	public void readEmployees() throws FileNotFoundException{
 
-		File femployees= new File("./src/inData/employees.text");
+		File femployees= new File("inData/employees.txt");
 		Scanner inFile= new Scanner(femployees);
 
 		String name; 
@@ -676,10 +676,10 @@ public class Enterprise {
 		
 
 		while(inFile.hasNext()){
-			name=inFile.nextLine();
-			id= inFile.nextLine();
-			phone=inFile.nextLine();
-			position=inFile.nextLine();			
+			name=inFile.next()+" "+inFile.next();
+			id= inFile.next();
+			phone=inFile.next();
+			position=inFile.next();			
 			registerCollaborators(name, id, phone, position);
 		}
 
@@ -687,7 +687,7 @@ public class Enterprise {
 
 	public void readClients() throws FileNotFoundException{
 
-		File fclients= new File("./src/inData/clients.text");
+		File fclients= new File("inData/clients.txt");
 		Scanner inFile= new Scanner(fclients);
 
 		String name; 
@@ -696,9 +696,9 @@ public class Enterprise {
 		
 
 		while(inFile.hasNext()){
-			name=inFile.nextLine();
-			id= inFile.nextLine();
-			phone=inFile.nextLine();
+			name=inFile.next()+" "+inFile.next();
+			id= inFile.next();
+			phone=inFile.next();
 			registerClients(name, id, phone);
 		}
 
@@ -706,7 +706,7 @@ public class Enterprise {
 
 	public void readProjects() throws FileNotFoundException{
 
-		File fprojects= new File("./src/inData/projects.text");
+		File fprojects= new File("inData/projects.txt");
 		Scanner inFile= new Scanner(fprojects);
 
 		String name; 
@@ -722,62 +722,64 @@ public class Enterprise {
 		Client client;
 		String clientCode;
 	
+		
 		while(inFile.hasNext()){
-			name=inFile.nextLine();
-			startDateS= inFile.nextLine();
-			String[] partsStart = startDateS.split("/");
-			int dayStart = Integer.parseInt(partsStart[0]);
-        	int monthStart = Integer.parseInt(partsStart[1]) - 1; 
-        	int yearStart = Integer.parseInt(partsStart[2]);
+			name=inFile.next();
+			startDateS= inFile.next();
+			String[] parts = startDateS.split("/");
+			int dayStart = Integer.parseInt(parts[0]);
+        	int monthStart = Integer.parseInt(parts[1])-1; 
+        	int yearStart = Integer.parseInt(parts[2]);
         	startDate= Calendar.getInstance();
         	startDate.set(yearStart, monthStart, dayStart);
-			finalDateS=inFile.nextLine();
+			finalDateS=inFile.next();
 			String[] partsFinal = finalDateS.split("/");
 			int dayFinal = Integer.parseInt(partsFinal[0]);
         	int monthFinal = Integer.parseInt(partsFinal[1]) - 1; 
         	int yearFinal = Integer.parseInt(partsFinal[2]);
         	finalDate= Calendar.getInstance();
-			budgetS=inFile.nextLine();
+			budgetS=inFile.next();
 			budget=Double.parseDouble(budgetS);
-			code=inFile.nextLine();
-			pManagerCode=inFile.nextLine();
+			code=inFile.next();
+			pManagerCode=inFile.next();
 			manager=searchManager(pManagerCode);
-			clientCode=inFile.nextLine();
+			clientCode=inFile.next();
 			client=searchClient(clientCode);
 			createProject(name, startDate, finalDate, budget,code, manager, client);
 	}
-			
 
+		
 		}
-		public void readCapsules() throws FileNotFoundException{
+	public void readCapsules() throws FileNotFoundException{
 
-			File fcapsules= new File("./src/inData/capsules.text");
-			Scanner inFile= new Scanner(fcapsules);
+		File fcapsules= new File("inData/capsules.txt");
+		Scanner inFile= new Scanner(fcapsules);
 			
-			String projectCode;
-			int stageNumber;
-			String stageNumberS;
-			int capsuleType;
-			String capsuleTypeS;
-			Collaborator collaborator;
-			String codeCollaborator;
-			String description;
-			String learning;
-			String capsuleCode;
-			
-			
-			while(inFile.hasNext()){
-				projectCode=inFile.nextLine();
-				stageNumberS=inFile.nextLine();
-				stageNumber=Integer.parseInt(stageNumberS);
-				capsuleTypeS=inFile.nextLine();
-				capsuleType=Integer.parseInt(capsuleTypeS);
-				codeCollaborator=inFile.nextLine();
-				collaborator=searchCollaborator(codeCollaborator);
-				description=inFile.nextLine();
-				learning=inFile.nextLine();
-				capsuleCode=inFile.nextLine();
-				this.listOfProjects[obtainProjectNumber(projectCode)].getSpecificStage(stageNumber).createCapsule(capsuleType, collaborator, description, learning, capsuleCode, projectCode, (stageNumber+1));
+		String projectCode;
+		int stageNumber;
+		String stageNumberS;
+		int capsuleType;
+		String capsuleTypeS;
+		Collaborator collaborator;
+		String codeCollaborator;
+		String description;
+		String learning;
+		String capsuleCode;
+
+		while(inFile.hasNext()){
+			projectCode=inFile.next();
+			stageNumberS=inFile.next();
+			stageNumber=Integer.parseInt(stageNumberS);
+			stageNumber=stageNumber-1;
+			capsuleTypeS=inFile.next();
+			capsuleType=Integer.parseInt(capsuleTypeS);
+			capsuleType=capsuleType-1;
+			codeCollaborator=inFile.next();
+			collaborator=searchCollaborator(codeCollaborator);
+			description=inFile.next();
+			learning=inFile.next();
+			capsuleCode=inFile.next();
+			this.listOfProjects[obtainProjectNumber(projectCode)].getSpecificStage(stageNumber).createCapsule(capsuleType, collaborator, description, learning, capsuleCode, projectCode, (stageNumber+1));
 
 			}
 	

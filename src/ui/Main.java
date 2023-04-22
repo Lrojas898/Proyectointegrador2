@@ -39,6 +39,12 @@ public class Main {
 		Scanner console= new Scanner(System.in);
 		Enterprise greenSQA= new Enterprise("Green SQA");
 		int control = 99;
+		greenSQA.readManagers();
+		greenSQA.readClients();
+		greenSQA.readEmployees();
+		greenSQA.readProjects();
+		greenSQA.readCapsules();
+		
 			do {
 				System.out.println("\n\n\nPRINCIPAL MENU");
 				System.out.println("Options: ");

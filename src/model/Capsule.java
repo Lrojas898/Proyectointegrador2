@@ -24,6 +24,7 @@ public class Capsule {
 	private String description;
 	private Collaborator collaborator;
 	private String projectCode;
+	//Especificar que se informa sobre el numero de la etapa y no la etapa
 	private int stageNumber;
 	private String html;
 	private boolean isApproved;
@@ -203,9 +204,9 @@ public class Capsule {
 		
 		if(this.isApproved==false){
 			return "Capsule [Capsule type= " + type + "\n"+ ", Capsue Learning=" + learning
-			+  "\n"+  ", Capsule description=" + description + "\n"+  ", Collaborator=" + collaborator.getId() + "\n"+  ", Project Code where the Capsule is stored= "  + projectCode+ "\n" + ", Stage Number where the capsule is stored "+stageNumber+ "\n"+
-			 " Capsule html=" + html + ", Is the Capsule Approved? =" + approvalMenssage + "\n"+", approvalDate = The capsule has not been approved" 
-			+ "\n"+ ", Is the capsule Approved to be Publish? = " + approvalMenssagePublish +"\n"+  ", Capsule keywords = " + Arrays.toString(keywords)
+			+  "\n"+  " Capsule description=" + description + "\n"+  " Collaborator=" + collaborator.getId() + "\n"+  " Project Code where the Capsule is stored= "  + projectCode+ "\n" + " Stage Number where the capsule is stored "+stageNumber+ "\n"+
+			 " Capsule html=" + html + " Is the Capsule Approved? =" + approvalMenssage + "\n"+" approvalDate = The capsule has not been approved" 
+			+ "\n"+ " Is the capsule Approved to be Publish? = " + approvalMenssagePublish +"\n"+  " Capsule keywords = " + Arrays.toString(keywords)
 			+  "]";
 		}
 
